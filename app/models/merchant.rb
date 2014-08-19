@@ -3,12 +3,10 @@ class Merchant < ActiveRecord::Base
   # acts_as_tree
   # Include default devise modules. Others available are:
   # :confirmable, :lockable, :timeoutable and :omniauthable
-=begin
-  devise :database_authenticatable,
-         :recoverable, :rememberable, :trackable, :validatable
-=end
+  #devise :database_authenticatable,
+         # :recoverable, :rememberable, :trackable, :validatable
 
-
+  mount_uploader :logo, MerchantLogoUploader
 
   alias_attribute :avatar_url, :logo_url
   has_many :coupons
@@ -21,7 +19,4 @@ class Merchant < ActiveRecord::Base
   has_many :terms, through: :merchant_terms
   has_many :scrips, as: :owner
 
-  def logo_url
-    "fix me"
-  end
 end

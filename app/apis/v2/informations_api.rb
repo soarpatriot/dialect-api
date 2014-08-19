@@ -19,6 +19,9 @@ class V2::InformationsApi < Grape::API
       favorite = current_user.favorites.where(information: information).first_or_create
       information.liked_by current_user
       information.increase_for :votes_count
+
+      Chat.create_for_information_favorite information, current_user
+
       present favorite, with: FavoriteInformationEntity
     end
 

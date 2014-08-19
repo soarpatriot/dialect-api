@@ -79,19 +79,12 @@ class V2::ScripsApi < Grape::API
       end
       scrip_params[:image] = params[:image]
       scrip = current_user.scrips.create scrip_params
-=begin
-      ScripImageUploader.enable_processing = true
-      @uploader = ScripImageUploader.new(scrip, :image)
-      @uploader.store!(params[:image])
-=end
-
       scrip.information.update place: place
 
-
-      binding.pry
       unless subject.nil?
-        subject.informations << scrip.information
+        scrip.information.update subject_id: params[:subject_id]
       end
+
       present scrip, with: ScripEntity, auth_token: params[:auth_token]
     end
 

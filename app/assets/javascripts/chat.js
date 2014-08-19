@@ -11,15 +11,11 @@ var userAgent = window.navigator.userAgent.toLowerCase();
 var ios = /iphone|ipod|ipad/.test(userAgent);
 
 if (window.chat == undefined) {
-  window.chat = {
-    getChatInfo: function() {
-      return "11,test,http://p.qq181.com/cms/1210/2012100413195471481.jpg,9,User";
-    }
+  alert("window.chat not defined");
+} else {
+  if(window.chat.getChatInfo == undefined) {
+    alert("window.chat.getChatInfo not defined");
   }
-}
-
-if (!ios) {
-  document.body.className = "android";
 }
 
 var iscroller;
@@ -44,37 +40,14 @@ function init(_userId, _name, _avatar, _targetId, _targetType) {
 
 var params = chat.getChatInfo().split(",");
 init(params[0], params[1], params[2], params[3], params[4], params[5]);
+// init(9, "name", "http://99touxiang.com/public/upload/nvsheng/50/26-022722_295.jpg", 6, "User");
+// init(6, "name", "http://99touxiang.com/public/upload/nvsheng/50/26-022722_295.jpg", 9, "User");
 
 var chatKey = targetType + "-" + targetId;
 
 var socketUrl = "inkash.test.soundink.net/websocket?user_id=" + userId;
 var dispatcher = new WebSocketRails(socketUrl);
-
-function saveMessage(message) {
-  messages.push(message);
-  storedMessages[chatKey] = messages;
-  storage.setItem("messages", JSON.stringify(storedMessages));
-}
-
-dispatcher.bind("message.sent", function(message){
-  var msg = _.find(messages, function(item){ return item.timestamp == message.timestamp });
-  if (msg) {
-    msg.status = "sent";
-    var el = $("#" + msg.user_id + "-" + msg.timestamp);
-    el.removeAttr("status");
-    el.find(".inner").removeClass("sent-error");
-    el.find(".msg-sending").remove();
-  }
-  storedMessages[chatKey] = messages;
-  storage.setItem("messages", JSON.stringify(storedMessages));
-});
-
-dispatcher.bind("message.new", function(message){
-  message.type = "received";
-  addMessage(message);
-
-  saveMessage(message);
-});
+var connectingTry = 0;
 
 function addMessage(msg, showLoading) {
   var msgHtml = msg.type == "received" ? $("#message-template .received").clone() : $("#message-template .sent").clone();
@@ -94,7 +67,25 @@ function addMessage(msg, showLoading) {
   iscroller.scrollToElement(document.querySelector('#messages li:nth-last-child(1)'), 500, null, null, IScroll.utils.ease.circular);
 }
 
+function saveMessage(message) {
+  messages.push(message);
+  storedMessages[chatKey] = messages;
+  storage.setItem("messages", JSON.stringify(storedMessages));
+}
+
+function enableSendingButton() {
+  $(".send-button, .message-input").removeAttr("disabled");
+  $(".send-button").text("发送");
+}
+
+function disableSendingButton() {
+  $(".send-button, .message-input").attr("disabled", "true")
+  $(".send-button").text("连接中...");
+}
+
 $(function() {
+  disableSendingButton();
+
   document.addEventListener('touchmove', function (e) { e.preventDefault(); }, false);
 
   iscroller = new IScroll("#scroll-wrapper", {
@@ -102,6 +93,10 @@ $(function() {
   });
 
   new FastClick(document.body);
+
+  $("#message-toolbar .message-input").on("blur", function(){
+    window.scrollTo(0, 0);
+  });
 
   if (storedMessages[chatKey]) {
     messages = storedMessages[chatKey];
@@ -118,7 +113,57 @@ $(function() {
     }
   }
 
-  $("#message-toolbar .message-input").on("blur", function(){
-    window.scrollTo(0, 0);
+  dispatcher.bind("client_connected", function(data){
+    connectingTry = 0;
+    dispatcher.trigger("message.get_offline", {target_id: targetId, target_type: targetType});
+    enableSendingButton();
   });
+
+  dispatcher.bind("connection_closed", function(data){
+    disableSendingButton();
+    setTimeout(function() {
+      dispatcher.connect();
+      connectingTry += 1;
+    }, 1000);
+  });
+
+  dispatcher.bind("message.sync", function(data){
+    _.each(data, function(message) {
+      message.type = "received";
+      addMessage(message);
+
+      saveMessage(message);
+    });
+  });
+
+  dispatcher.bind("message.sent", function(message){
+    var msg = _.find(messages, function(item){ return item.timestamp == message.timestamp });
+    if (msg) {
+      msg.status = "sent";
+      var el = $("#" + msg.user_id + "-" + msg.timestamp);
+      el.removeAttr("status");
+      el.find(".inner").removeClass("sent-error");
+      el.find(".msg-sending").remove();
+    }
+    storedMessages[chatKey] = messages;
+    storage.setItem("messages", JSON.stringify(storedMessages));
+  });
+
+  dispatcher.bind("message.new", function(message){
+    message.type = "received";
+    addMessage(message);
+
+    if (window.chat.updateMessage) {
+      window.chat.updateMessage(message.user_id, message.name, message.avatar, message.text);
+    } else {
+      alert("window.chat.updateMessage not defined");
+    }
+
+    saveMessage(message);
+  });
+
+  setInterval(function() {
+    dispatcher.trigger("message.get_offline", {target_id: targetId, target_type: targetType});
+  }, 10000);
+
 });

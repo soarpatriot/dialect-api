@@ -5,7 +5,7 @@ class User < ActiveRecord::Base
   enum group: [:normal, :market]
 
   acts_as_voter
-
+  mount_uploader :avatar, UserAvatarUploader
 
   validates :nickname, :mobile_number, :password_digest, presence:true
   validates :nickname, :mobile_number, uniqueness: true
@@ -56,16 +56,13 @@ class User < ActiveRecord::Base
   end
 
   def avatar_url
-    "fix me"
-=begin
-    unless self.nil? and self.avatar.nil?
+    unless self.avatar.nil?
       if not self.avatar.try(:thumb).url.nil?
         self.avatar.url(:thumb)
       else
         self.avatar.url
       end
     end
-=end
   end
 
   private
@@ -83,9 +80,6 @@ class User < ActiveRecord::Base
   def set_random_avatar
 
     self.update avatar: File.open("#{G2.config.root_dir}/app/assets/images/avatars/#{(rand(10) + 1)}.jpg")
-
-    # self.update avatar: File.open("#{Rails.root.join('app/assets/images/avatars/')}#{(rand(10) + 1)}.jpg")
   end
-
 
 end

@@ -4,16 +4,17 @@
 
 body {
   overflow: hidden;
+  background: #ebebeb;
 
   #message-toolbar {
     position: absolute;
     left: 0px;
     bottom: 0px;
     width: 100%;
-    background: #EEE;
+    background: #fff;
     z-index: 10;
-    padding-top: 5px;
-    padding-bottom: 5px;
+    padding-top: 10px;
+    padding-bottom: 10px;
 
     .col-xs-9 {
       padding-right: 0px;
@@ -33,7 +34,7 @@ body {
     z-index: 1;
     top: 0px;
     left: 10px;
-    bottom: 40px;
+    bottom: 54px;
     right: 10px;
     width: auto;
     overflow: hidden;
@@ -61,21 +62,21 @@ body {
 
     li.message {
       margin-bottom: 10px;
-      min-height: 35px;
+      min-height: 40px;
 
       .avatar {
         img {
-          width: 35px;
-          border-radius: 35px;
+          width: 90%;
+          border-radius: 40px;
         }
       }
 
       .text {
         .inner {
-          background: #1ebf96;
+          background: #fff;
           border-radius: 10px;
-          padding: 5px 10px;
-          color: #fff;
+          padding: 10px 15px;
+          color: #333;
           display: inline-block;
 
           &.sent-error {
@@ -93,6 +94,20 @@ body {
         .avatar, .text {
           text-align: left;
         }
+        .inner:before {
+          content: "";
+          position: absolute;
+          border-style: solid;
+          display: block;
+          width: 0;
+
+          top: 15px;
+          left: 2px;
+          bottom: auto;
+          right: auto;
+          border-width: 5px 8px 5px 0px;
+          border-color: transparent #fff;
+        }
       }
 
       &.sent {
@@ -100,8 +115,22 @@ body {
           text-align: right;
         }
         .inner {
-          background: #EEE;
+          background: #ffc801;
           color: #333;
+        }
+        .inner:after {
+          content: "";
+          position: absolute;
+          border-style: solid;
+          display: block;
+          width: 0;
+
+          top: 15px;
+          right: 2px;
+          bottom: auto;
+          left: auto;
+          border-width: 5px 0 5px 8px;
+          border-color: transparent #ffc801;
         }
       }
     }

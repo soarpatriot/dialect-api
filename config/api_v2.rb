@@ -41,7 +41,7 @@ class ApiV2 < Grape::API
   mount V2::FeedbacksApi
   mount V2::GeocoderApi
   mount V2::UserApi
-
+  mount V2::VersionApi
 
   #add_swagger_documentation api_version: "v2", markdown: true
 

@@ -3,7 +3,7 @@ class Coupon < ActiveRecord::Base
 
   enum status: [:usable, :used, :expired]
 
-
+  mount_uploader :image, CouponImageUploader
 
   has_one :information, as: :infoable, dependent: :destroy
 

@@ -69,11 +69,10 @@ describe V2::ScripsApi do
     it "with image file" do
       place = create :place
       subject = create :subject
-      image_path = "#{G2.config.root_dir}/app/assets/images/scrips/day1.jpg"
+      image_path = "#{G2.config.root_dir}/app/assets/images/emotion/face_angry.png"
       # fixture_file_upload(image_path, 'image/png')
       res = auth_json_post scrips_path, content: "content", place_id: place.id, subject_id:subject.id, image: File.new(image_path)
 
-      binding.pry
       expect(current_user.scrips.count).to eq(1)
       scrip = current_user.scrips.first
 

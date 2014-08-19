@@ -25,3 +25,4 @@ config/settings.yml
 config/settings/development.yml
 config/initializers/rpush.rb
 *.pem
+/coverage

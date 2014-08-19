@@ -1,10 +1,3 @@
-dispatcher.bind("client_connected", function(data){
-});
-
-dispatcher.bind("connection_closed", function(data){
-  dispatcher.connect();
-});
-
 $(".send-button").on("click", function () {
   var messageText = $(".message-input").val().trim();
   if (messageText.length === 0) return;
@@ -20,6 +13,12 @@ $(".send-button").on("click", function () {
     timestamp: (new Date().getTime()),
     status: "sending"
   };
+
+  if (window.chat.updateMessage) {
+    window.chat.updateMessage(message.user_id, message.name, message.avatar, message.text);
+  } else {
+    alert("window.chat.updateMessage not defined");
+  }
 
   addMessage(message, true);
   saveMessage(message);

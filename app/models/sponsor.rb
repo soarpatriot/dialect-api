@@ -1,5 +1,5 @@
 class Sponsor < ActiveRecord::Base
-
+  mount_uploader :logo, SponsorLogoUploader
 
   validates :title, :start_at, :end_at, presence: true
   validate :check_scrip

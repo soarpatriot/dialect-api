@@ -1,15 +1,11 @@
-require 'carrierwave'
 class Scrip < ActiveRecord::Base
   extend Geocoder::Model::ActiveRecord
   # attrs: content image user_id address longitude latitude
   include SoftDelete
-  # include CarrierWave::Mount
-
 
   default_scope {order("id desc")}
 
   mount_uploader :image, ScripImageUploader
-
   reverse_geocoded_by :latitude, :longitude
 
   has_one :information, as: :infoable, dependent: :destroy
@@ -78,7 +74,6 @@ class Scrip < ActiveRecord::Base
     address_arr.join(",")
   end
 
-
   private
 
   def create_information
@@ -111,6 +106,5 @@ class Scrip < ActiveRecord::Base
   def subject
     self.information.try(:subject)
   end
-
 
 end

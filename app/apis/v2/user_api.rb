@@ -104,6 +104,7 @@ class V2::UserApi < Grape::API
 
       user = User.create country_code: params[:country_code], mobile_number: params[:mobile_number], nickname: params[:nickname], password: params[:password]
       error! user.errors.full_messages.join(","), 400 unless user.persisted?
+
       captcha.destroy
       user.auth_tokens.create
       present user, with: UserEntity, return_token: true
@@ -160,11 +161,16 @@ class V2::UserApi < Grape::API
       entity: CommentInformationEntity
     }
     params do
-      optional :before, type: Integer, desc: "查询小于此comment id 字条"
+      optional :before, type: Integer, desc: "查询小于此information id 字条"
     end
     get "scrips/commented" do
-      comments = current_user.comments.includes(:scrip).order("comments.id desc").distinct
-      comment_page(comments,params[:before])
+      scrips   =  Scrip.joins(:comments).where("comments.user_id=?",current_user.id).order("comments.id desc").distinct
+      before = params[:before]
+      unless before.nil?
+        before = Information.find(before).infoable_id
+      end
+      #comments = current_user.comments.includes(:scrip).order("comments.id desc").distinct
+      comment_page(scrips,before)
     end
 
     desc "我赞过的字条列表", {

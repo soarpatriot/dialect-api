@@ -46,8 +46,6 @@ class V2::CommentsApi < Grape::API
       requires :content, type: String, desc: "评论内容"
       requires :information_id, type: Integer, desc: "信息ID"
       optional :place_id, type:Integer, desc: "地点id"
-      optional :geolocation, type: String, regexp: /^(\-?\d+(\.\d+)?),\s*(\-?\d+(\.\d+)?)$/, desc: "lon,lat"
-      optional :address, type: String
     end
     post do
       information = Information.find params[:information_id]
@@ -55,7 +53,10 @@ class V2::CommentsApi < Grape::API
       locale_error! "comments.no_scrip_found", 404 if scrip.nil?
       place = Place.where(id: params[:place_id]).first
       # locale_error! "comments.no_place_found", 404 if place.nil?
-      comment = scrip.comments.create content: params[:content],address:params[:address], user: current_user, place: place
+      comment = scrip.comments.create content: params[:content], address: place.try(:address), user: current_user, place: place
+
+      Chat.create_for_information_comment information, current_user, params[:content]
+
       present comment, with: CommentEntity
     end
 

@@ -26,7 +26,7 @@ class ScripEntity < Grape::Entity
     instance.information.share_url + "?locale=#{I18n.locale}"
   end
   expose :owner_id,  documentation: {required: true, type: "String", desc: "owner id"} do |instance, options|
-    instance.id
+    instance.owner.id
   end
   expose :owner_nickname,  documentation: {required: true, type: "String", desc: "用户昵称"} do |instance, options|
     instance.username

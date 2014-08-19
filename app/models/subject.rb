@@ -1,5 +1,6 @@
 class Subject < ActiveRecord::Base
 
+  mount_uploader :image, SubjectImageUploader
 
   has_one :information, as: :infoable, dependent: :destroy
   belongs_to :owner, polymorphic: true

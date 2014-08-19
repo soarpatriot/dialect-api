@@ -16,5 +16,6 @@
 //= require admin_place_new
 //= require admin_subject_new
 //= require admin_user_create_scrip
+//= require admin_version_new
 
 

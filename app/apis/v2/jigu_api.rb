@@ -66,13 +66,18 @@ class V2::JiguApi < Grape::API
         subject = Subject.find params[:subject_id]
         informations = subject.informations.where("infoable_type = 'Scrip'")
       else
-        informations = place.information.where("infoable_type <> 'Coupon'").order("infoable_type desc")
+        if params[:before]
+          informations = place.information.where("infoable_type <> 'Coupon' and subject_id is null")
+        else
+          informations = place.information.where("infoable_type <> 'Coupon'")
+        end
+        informations = informations.order("infoable_type desc")
       end
 
       informations = informations.order("id desc")
 
       if params[:before]
-        informations = informations.where("id < ?", params[:before]).order("id desc")
+        informations = informations.where("id < ?", params[:before])
 
         sum = informations.count
         start = sum - Settings.paginate_per_page
@@ -83,11 +88,7 @@ class V2::JiguApi < Grape::API
         informations = informations.limit Settings.paginate_per_page
       end
 
-      if params[:subject_id]
-        present informations, with: InformationEntity, user: current_user
-      else
-        present informations, with: InformationEntity, user: current_user
-      end
+      present informations, with: InformationEntity, user: current_user
 
       body has_more: has_more, data: body()
     end
