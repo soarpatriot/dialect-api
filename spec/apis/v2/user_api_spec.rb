@@ -1,4 +1,4 @@
-require "spec_helper"
+require "rails_helper"
 
 describe V2::UserApi do
 
@@ -190,9 +190,18 @@ describe V2::UserApi do
     it "only one commented with before" do
       scrip1 =  create(:scrip, owner: create(:user))
       comment = create(:comment, scrip: scrip1, user: current_user )
-      res = auth_json_get user_scrips_commented_path, before: comment.id
+      res = auth_json_get user_scrips_commented_path, before: scrip1.information.id
       expect(res[:has_more]).to eq(false)
       expect(res[:data].size).to eq(0)
+    end
+
+    it "two commented,duplicated,only show one  " do
+      scrip1 =  create(:scrip, owner: create(:user))
+      comment = create(:comment, scrip: scrip1, user: current_user )
+      comment1 = create(:comment, scrip: scrip1, user: current_user )
+      res = auth_json_get user_scrips_commented_path
+      expect(res[:has_more]).to eq(false)
+      expect(res[:data].size).to eq(1)
     end
 
     it "before commented" do 
@@ -202,9 +211,9 @@ describe V2::UserApi do
       end
       scrip1 =  create(:scrip, owner: create(:user))
       comment = create(:comment, scrip: scrip1, user: current_user )
-      res = auth_json_get user_scrips_commented_path,before: comment.id
+      res = auth_json_get user_scrips_commented_path,before: scrip1.information.id
       expect(res[:has_more]).to eq(true)
-      expect(res[:data].size).to eq(Settings.paginate_per_page)
+      expect(res[:data].size).to eq(2)
     end
 
 

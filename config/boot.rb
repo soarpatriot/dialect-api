@@ -15,6 +15,7 @@ end
 end
 $LOAD_PATH.unshift File.join(root_dir, "config/initializers")
 
+require "i18n"
 require "active_support"
 require "action_mailer"
 require "grape"
@@ -38,7 +39,7 @@ require "carrierwave"
 require "mini_magick"
 require "paperclip"
 require "acts_as_votable"
-require "acts_as_tree"
+
 
 
 require 'g2'
@@ -49,6 +50,10 @@ require 'db'
 require 'v1'
 require 'v2'
 require 'settings'
+
+
+# load own i18ns
+I18n.load_path += Dir[File.join(G2.config.root_dir, 'config', 'locales', '*.{rb,yml}')]
 
 # loading initializers
 Dir.glob("config/initializers/*.rb").each do |initializer|
@@ -77,6 +82,7 @@ Dir.glob('app/apis/**/*.rb').each do |item|
   require item
 end
 
+require "acts_as_tree"
 
 
 

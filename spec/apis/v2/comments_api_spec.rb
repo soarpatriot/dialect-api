@@ -1,5 +1,4 @@
-require "spec_helper"
-
+require "rails_helper"
 
 describe V2::CommentsApi do
   let(:comments_path) { "/v2/comments" }
@@ -67,16 +66,15 @@ describe V2::CommentsApi do
     it "success" do
       scrip = create :scrip
       place = create :place
-      address = "北京东四"
       content = "a new comment"
-      res = auth_json_post comments_path, {content: content, address:address, information_id: scrip.information.id, place_id: place.id}
+      res = auth_json_post comments_path, {content: content, information_id: scrip.information.id, place_id: place.id}
       expect(Comment.count).to eq(1)
       comment = Comment.first
       expect(res[:id]).to eq(comment.id)
       expect(res[:user_id]).to eq(comment.user_id)
       expect(res[:information_id]).to eq(scrip.information.id)
       expect(res[:content]).to eq(content)
-      expect(res[:address]).to eq(address)
+      expect(res[:address]).to eq(place.address)
     end
   end
 

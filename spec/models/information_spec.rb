@@ -3,7 +3,7 @@ require 'rails_helper'
 RSpec.describe Information, :type => :model do
   it "url" do
     information = create :information
-    expect(information.url).to eq("test.dev/information/#{information.id}")
+    expect(information.url).to eq("#{Settings.host}/information/#{information.id}")
   end
 
   it "belongs to coupon and favorited" do

@@ -1,5 +1,6 @@
 source "http://rubygems.org"
 
+gem "i18n"
 gem "rest-client", "~> 1.6.7"
 gem 'httparty'
 gem 'grape'

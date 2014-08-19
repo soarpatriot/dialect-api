@@ -1,5 +1,4 @@
-require "spec_helper"
-
+require "rails_helper"
 
 describe V2::JiguApi do
 
@@ -78,7 +77,7 @@ describe V2::JiguApi do
       it "no more scrip" do
         res = auth_json_get jigu_path
         expect(res[:id]).to eq(-1)
-        expect(res[:url]).to eq("test.dev/information/no_scrip?locale=")
+        expect(res[:url]).to eq("#{Settings.host}/information/no_scrip?locale=")
       end
     end
 
@@ -201,7 +200,6 @@ describe V2::JiguApi do
   it "checkin" do
     mq100 = create :mq100
     res = auth_json_post jigu_checkin_path, merchant_service_code: mq100.service_code, geolocation: "123,123"
-
     expect(CheckinHistory.count).to eq(1)
 
     ch = CheckinHistory.first

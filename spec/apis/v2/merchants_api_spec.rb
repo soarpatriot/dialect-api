@@ -1,5 +1,4 @@
-require "spec_helper"
-
+require "rails_helper"
 
 describe V2::MerchantsApi do
   let(:chinkin) { "/v2/merchants/checkin" }

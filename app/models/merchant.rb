@@ -1,3 +1,4 @@
+require 'acts_as_tree'
 class Merchant < ActiveRecord::Base
 
   # acts_as_tree

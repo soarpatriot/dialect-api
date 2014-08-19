@@ -1,5 +1,4 @@
-require "spec_helper"
-
+require "rails_helper"
 
 describe V2::PlacesApi do
   let(:places_path) { "/v2/places" }

@@ -1,0 +1,11 @@
+zh-CN:
+  comments:
+    send: "发送"
+    comment: "评论"
+    likes: "赞"
+    loading: "加载中..."
+    loading_more: "加载更多"
+    post_place_holder: "发表评论..."
+    title: "评论"
+    no_place_found: "没有对应的地点"
+    no_scrip_found: "没有对应的字条"

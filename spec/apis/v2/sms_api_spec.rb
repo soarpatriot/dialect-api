@@ -1,8 +1,6 @@
-=begin
-require "spec_helper"
+require "rails_helper"
 
-
-describe V2::SmsApi do
+describe V1::SmsApi do
 
   let(:register_path) { "/v2/sms/send_register_code" }
   let(:reset_password_path) { "/v2/sms/send_reset_password_code" }
@@ -46,4 +44,3 @@ describe V2::SmsApi do
   end
 
 end
-=end

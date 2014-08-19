@@ -18,7 +18,6 @@ describe ScripImageUploader do
 
   context 'the thumb version' do
     it "should scale down a landscape image to be exactly 64 by 64 pixels" do
-      binding.pry
       @uploader.thumb.should have_dimensions(64, 64)
     end
   end

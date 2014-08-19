@@ -1,0 +1,11 @@
+en:
+  comments:
+    send: "Send"
+    comment: "Comments"
+    likes: "likes"
+    loading: "loading..."
+    loading_more: "Loading More"
+    post_place_holder: "Please post your comments..."
+    title: "Comment"
+    no_place_found: "There is no place for this place id"
+    no_scrip_found: "There is no scrip for this id"

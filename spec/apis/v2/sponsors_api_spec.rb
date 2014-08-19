@@ -1,5 +1,4 @@
-require "spec_helper"
-
+require "rails_helper"
 
 describe V2::SponsorsApi do
   let(:sponsors_path) { "/v2/sponsors" }
