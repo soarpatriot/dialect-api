@@ -22,24 +22,6 @@ class ScripImageUploader < CarrierWave::Uploader::Base
   # end
 
 
-
-
-=begin
-  def url(version=:original)
-    case version
-      when :thumb
-        Settings.host + "/#{model.class.to_s.underscore}/#{mounted_as}/#{model.id}/#{filename}"
-      when :show
-        Settings.host + "middle"
-      else
-        Settings.host + "default"
-    end
-
-  end
-=end
-
-
-
   # Process files as they are uploaded:
   # process :scale => [200, 300]
   #
@@ -73,7 +55,7 @@ class ScripImageUploader < CarrierWave::Uploader::Base
 
   def not_gif_or_bigger_than_600? picture
     image = MiniMagick::Image.open(picture.path)
-    # image[:width] > 600 and !picture.path.end_with?("gif")
+    image[:width] > 600 and !picture.path.end_with?("gif")
   end
 
 end

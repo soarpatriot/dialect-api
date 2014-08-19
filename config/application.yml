@@ -1,7 +1,8 @@
 defaults: &defaults
   paginate_per_page: 2
-  host: "http://192.168.88.207:3000"
-  asset_host: "http://192.168.88.207:3000"
+  asset_host: "http://192.168.253.104:9000"
+  host: "http://192.168.253.104:9000"
+
   share_title: "fsdfsdf"
   SSP_AUTH_TOKEN: "7096f9915e44e98443d7ef7143e98009"
   SSP_API_URL: "https://api.test.soundink.net/v2/soundink_codes"

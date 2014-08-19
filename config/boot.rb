@@ -39,17 +39,17 @@ require "carrierwave"
 require "mini_magick"
 require "paperclip"
 require "acts_as_votable"
-
+require "acts_as_tree"
 
 
 require 'g2'
 require 'db'
 
-
-
 require 'v1'
 require 'v2'
 require 'settings'
+
+
 
 
 # load own i18ns
@@ -82,7 +82,7 @@ Dir.glob('app/apis/**/*.rb').each do |item|
   require item
 end
 
-require "acts_as_tree"
+
 
 
 
