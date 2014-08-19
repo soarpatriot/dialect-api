@@ -1,0 +1,347 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html lang='en' xml:lang='en' xmlns='http://www.w3.org/1999/xhtml'>
+  <head>
+    <title>app/apis/v2/jigu_api.rb</title>
+    <link href="./assets/0.2.3/screen.css" media="all" rel="stylesheet" type="text/css" />
+    <link href="./assets/0.2.3/print.css" media="print" rel="stylesheet" type="text/css" />
+    <meta http-equiv="Content-type" content="text/html;charset=UTF-8" />
+    <script type="text/javascript" src="./assets/0.2.3/rcov.js"></script>
+  </head>
+  <body>
+    <h1>Inkash-api C0 Coverage Information - Simploco - RCov</h1>
+    <h2>app/apis/v2/jigu_api.rb</h2>
+
+    <div class="report_table_wrapper">
+      <table class='report' id='report_table'>
+        <thead>
+          <tr>
+            <th class="left_align">Name</th>
+            <th class="right_align">Total Lines</th>
+            <th class="right_align">Lines of Code</th>
+            <th class="left_align">Total Coverage</th>
+            <th class="left_align">Code Coverage</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td class="left_align"><a href="app-apis-v2-jigu_api_rb.html">app/apis/v2/jigu_api.rb</a></td>
+            <td class='right_align'><tt>96</tt></td>
+            <td class='right_align'><tt>51</tt></td>
+            <td class="left_align"><div class="percent_graph_legend"><tt class=''>64.58%</tt></div>
+      <div class="percent_graph">
+        <div class="covered" style="width:65px"></div>
+        <div class="uncovered" style="width:35px"></div>
+      </div></td>
+            <td class="left_align"><div class="percent_graph_legend"><tt class=''>33.33%</tt></div>
+      <div class="percent_graph">
+        <div class="covered" style="width:33px"></div>
+        <div class="uncovered" style="width:67px"></div>
+      </div></td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+
+    <h3>Key</h3>
+
+    <div class="key"><pre><span class='marked'>Code reported as executed by Ruby looks like this...</span><span class='marked1'>and this: this line is also marked as covered.</span><span class='inferred'>Lines considered as run by rcov, but not reported by Ruby, look like this,</span><span class='inferred1'>and this: these lines were inferred by rcov (using simple heuristics).</span><span class='uncovered'>Finally, here's a line marked as not executed.</span></pre></div>
+
+    <h3>Coverage Details</h3>
+
+    <table class="details">
+      <tbody>
+        <tr class="marked">
+          <td><pre><a name="line2">2</a> class V2::JiguApi &lt; Grape::API</pre></td>
+        </tr>
+        <tr class="inferred">
+          <td><pre><a name="line3">3</a> </pre></td>
+        </tr>
+        <tr class="marked">
+          <td><pre><a name="line4">4</a>   before do</pre></td>
+        </tr>
+        <tr class="uncovered">
+          <td><pre><a name="line5">5</a>     token_authenticate!</pre></td>
+        </tr>
+        <tr class="inferred">
+          <td><pre><a name="line6">6</a>   end</pre></td>
+        </tr>
+        <tr class="inferred">
+          <td><pre><a name="line7">7</a> </pre></td>
+        </tr>
+        <tr class="marked">
+          <td><pre><a name="line8">8</a>   params do</pre></td>
+        </tr>
+        <tr class="marked">
+          <td><pre><a name="line9">9</a>     requires :auth_token, type: String</pre></td>
+        </tr>
+        <tr class="inferred">
+          <td><pre><a name="line10">10</a>   end</pre></td>
+        </tr>
+        <tr class="marked">
+          <td><pre><a name="line11">11</a>   resources :jigu do</pre></td>
+        </tr>
+        <tr class="inferred">
+          <td><pre><a name="line12">12</a> </pre></td>
+        </tr>
+        <tr class="marked">
+          <td><pre><a name="line13">13</a>     desc &quot;叽咕一下&quot;, {</pre></td>
+        </tr>
+        <tr class="inferred">
+          <td><pre><a name="line14">14</a>       entity: InformationEntity,</pre></td>
+        </tr>
+        <tr class="inferred">
+          <td><pre><a name="line15">15</a>       notes: &lt;&lt;-NOTES</pre></td>
+        </tr>
+        <tr class="inferred">
+          <td><pre><a name="line16">16</a>         叽咕一下返回一个Information，Information包括的具体信息为Scrip和Coupon两类，通过type区分。</pre></td>
+        </tr>
+        <tr class="inferred">
+          <td><pre><a name="line17">17</a>       NOTES</pre></td>
+        </tr>
+        <tr class="inferred">
+          <td><pre><a name="line18">18</a>     }</pre></td>
+        </tr>
+        <tr class="marked">
+          <td><pre><a name="line19">19</a>     params do</pre></td>
+        </tr>
+        <tr class="marked">
+          <td><pre><a name="line20">20</a>       optional :service_code, type: String</pre></td>
+        </tr>
+        <tr class="marked">
+          <td><pre><a name="line21">21</a>       optional :delay, type: Integer</pre></td>
+        </tr>
+        <tr class="marked">
+          <td><pre><a name="line22">22</a>       optional :geolocation, type: String, regexp: /^(\-?\d+(\.\d+)?),\s*(\-?\d+(\.\d+)?)$/, desc: &quot;逗号分隔。lon,lat =&gt; 123.2,39.8&quot;</pre></td>
+        </tr>
+        <tr class="inferred">
+          <td><pre><a name="line23">23</a>     end</pre></td>
+        </tr>
+        <tr class="marked">
+          <td><pre><a name="line24">24</a>     get do</pre></td>
+        </tr>
+        <tr class="uncovered">
+          <td><pre><a name="line25">25</a>       log_location_and_place</pre></td>
+        </tr>
+        <tr class="uncovered">
+          <td><pre><a name="line26">26</a>       black_list = %w{92232580 98008780 97873240 93262763 98539278}.map{|item| &quot;+65#{item}&quot; }</pre></td>
+        </tr>
+        <tr class="uncovered">
+          <td><pre><a name="line27">27</a>       if current_user.information_visit_records.count == 0 and current_user.country_code == 65 and !black_list.include?(current_user.mobile_number)</pre></td>
+        </tr>
+        <tr class="uncovered">
+          <td><pre><a name="line28">28</a>         coupon = Coupon.offset(Kernel.rand(Coupon.count)).first</pre></td>
+        </tr>
+        <tr class="uncovered">
+          <td><pre><a name="line29">29</a>         information = coupon.try(:information)</pre></td>
+        </tr>
+        <tr class="uncovered">
+          <td><pre><a name="line30">30</a>         current_user.favorites.create information: information unless information.nil?</pre></td>
+        </tr>
+        <tr class="inferred">
+          <td><pre><a name="line31">31</a>       end</pre></td>
+        </tr>
+        <tr class="inferred">
+          <td><pre><a name="line32">32</a> </pre></td>
+        </tr>
+        <tr class="uncovered">
+          <td><pre><a name="line33">33</a>       if information.nil?</pre></td>
+        </tr>
+        <tr class="uncovered">
+          <td><pre><a name="line34">34</a>         merchant = Mq100.where(service_code: params[:service_code]).first.try(:merchant)</pre></td>
+        </tr>
+        <tr class="uncovered">
+          <td><pre><a name="line35">35</a>         information = Information.get_recommended_record_for current_user, merchant, params[:geolocation]</pre></td>
+        </tr>
+        <tr class="inferred">
+          <td><pre><a name="line36">36</a>       end</pre></td>
+        </tr>
+        <tr class="inferred">
+          <td><pre><a name="line37">37</a> </pre></td>
+        </tr>
+        <tr class="uncovered">
+          <td><pre><a name="line38">38</a>       unless information.nil?</pre></td>
+        </tr>
+        <tr class="uncovered">
+          <td><pre><a name="line39">39</a>         InformationVisitRecord.create information: information, user: current_user</pre></td>
+        </tr>
+        <tr class="uncovered">
+          <td><pre><a name="line40">40</a>         information.increase_for :visits_count</pre></td>
+        </tr>
+        <tr class="uncovered">
+          <td><pre><a name="line41">41</a>         present information, with: InformationEntity, auth_token: params[:auth_token], user: current_user</pre></td>
+        </tr>
+        <tr class="inferred">
+          <td><pre><a name="line42">42</a>       else</pre></td>
+        </tr>
+        <tr class="inferred">
+          <td><pre><a name="line43">43</a>         {</pre></td>
+        </tr>
+        <tr class="inferred">
+          <td><pre><a name="line44">44</a>           id: -1,</pre></td>
+        </tr>
+        <tr class="inferred">
+          <td><pre><a name="line45">45</a>           type: &quot;Scrip&quot;,</pre></td>
+        </tr>
+        <tr class="inferred">
+          <td><pre><a name="line46">46</a>           url: Settings.host + &quot;/information/no_scrip?locale=#{params[:locale]}&quot;</pre></td>
+        </tr>
+        <tr class="uncovered">
+          <td><pre><a name="line47">47</a>         }</pre></td>
+        </tr>
+        <tr class="inferred">
+          <td><pre><a name="line48">48</a>       end</pre></td>
+        </tr>
+        <tr class="inferred">
+          <td><pre><a name="line49">49</a>     end</pre></td>
+        </tr>
+        <tr class="inferred">
+          <td><pre><a name="line50">50</a> </pre></td>
+        </tr>
+        <tr class="marked">
+          <td><pre><a name="line51">51</a>     desc &quot;叽咕列表&quot;, {</pre></td>
+        </tr>
+        <tr class="inferred">
+          <td><pre><a name="line52">52</a>       entity: InformationEntity,</pre></td>
+        </tr>
+        <tr class="inferred">
+          <td><pre><a name="line53">53</a>       notes: &lt;&lt;-NOTES</pre></td>
+        </tr>
+        <tr class="inferred">
+          <td><pre><a name="line54">54</a>         叽咕一下返回一个Information，Information包括的具体信息为Scrip和Subject两类，通过type区分。</pre></td>
+        </tr>
+        <tr class="inferred">
+          <td><pre><a name="line55">55</a>       NOTES</pre></td>
+        </tr>
+        <tr class="inferred">
+          <td><pre><a name="line56">56</a>     }</pre></td>
+        </tr>
+        <tr class="marked">
+          <td><pre><a name="line57">57</a>     params do</pre></td>
+        </tr>
+        <tr class="marked">
+          <td><pre><a name="line58">58</a>       requires :place_id, type: Integer, desc: &quot;地点ID&quot;</pre></td>
+        </tr>
+        <tr class="marked">
+          <td><pre><a name="line59">59</a>       optional :subject_id, type: Integer, desc: &quot;专题ID&quot;</pre></td>
+        </tr>
+        <tr class="marked">
+          <td><pre><a name="line60">60</a>       optional :before, type: Integer, desc: &quot;查询此ID以前的信息&quot;</pre></td>
+        </tr>
+        <tr class="inferred">
+          <td><pre><a name="line61">61</a>     end</pre></td>
+        </tr>
+        <tr class="marked">
+          <td><pre><a name="line62">62</a>     get &quot;list&quot; do</pre></td>
+        </tr>
+        <tr class="uncovered">
+          <td><pre><a name="line63">63</a>       place = Place.find params[:place_id]</pre></td>
+        </tr>
+        <tr class="uncovered">
+          <td><pre><a name="line64">64</a>       place.users.where(id: current_user.id).first_or_create</pre></td>
+        </tr>
+        <tr class="inferred">
+          <td><pre><a name="line65">65</a> </pre></td>
+        </tr>
+        <tr class="uncovered">
+          <td><pre><a name="line66">66</a>       if params[:subject_id]</pre></td>
+        </tr>
+        <tr class="uncovered">
+          <td><pre><a name="line67">67</a>         subject = Subject.find params[:subject_id]</pre></td>
+        </tr>
+        <tr class="uncovered">
+          <td><pre><a name="line68">68</a>         informations = subject.informations.where(&quot;infoable_type = &#39;Scrip&#39;&quot;)</pre></td>
+        </tr>
+        <tr class="inferred">
+          <td><pre><a name="line69">69</a>       else</pre></td>
+        </tr>
+        <tr class="uncovered">
+          <td><pre><a name="line70">70</a>         informations = place.information.where(&quot;infoable_type &lt;&gt; &#39;Coupon&#39;&quot;).order(&quot;infoable_type desc&quot;)</pre></td>
+        </tr>
+        <tr class="inferred">
+          <td><pre><a name="line71">71</a>       end</pre></td>
+        </tr>
+        <tr class="inferred">
+          <td><pre><a name="line72">72</a> </pre></td>
+        </tr>
+        <tr class="uncovered">
+          <td><pre><a name="line73">73</a>       informations = informations.order(&quot;id desc&quot;)</pre></td>
+        </tr>
+        <tr class="inferred">
+          <td><pre><a name="line74">74</a> </pre></td>
+        </tr>
+        <tr class="uncovered">
+          <td><pre><a name="line75">75</a>       if params[:before]</pre></td>
+        </tr>
+        <tr class="uncovered">
+          <td><pre><a name="line76">76</a>         informations = informations.where(&quot;id &lt; ?&quot;, params[:before]).order(&quot;id desc&quot;)</pre></td>
+        </tr>
+        <tr class="inferred">
+          <td><pre><a name="line77">77</a> </pre></td>
+        </tr>
+        <tr class="uncovered">
+          <td><pre><a name="line78">78</a>         sum = informations.count</pre></td>
+        </tr>
+        <tr class="uncovered">
+          <td><pre><a name="line79">79</a>         start = sum - Settings.paginate_per_page</pre></td>
+        </tr>
+        <tr class="uncovered">
+          <td><pre><a name="line80">80</a>         has_more = start &gt; 0</pre></td>
+        </tr>
+        <tr class="uncovered">
+          <td><pre><a name="line81">81</a>         informations = informations.limit Settings.paginate_per_page</pre></td>
+        </tr>
+        <tr class="inferred">
+          <td><pre><a name="line82">82</a>       else</pre></td>
+        </tr>
+        <tr class="uncovered">
+          <td><pre><a name="line83">83</a>         has_more = (informations.count - Settings.paginate_per_page) &gt; 0</pre></td>
+        </tr>
+        <tr class="uncovered">
+          <td><pre><a name="line84">84</a>         informations = informations.limit Settings.paginate_per_page</pre></td>
+        </tr>
+        <tr class="inferred">
+          <td><pre><a name="line85">85</a>       end</pre></td>
+        </tr>
+        <tr class="inferred">
+          <td><pre><a name="line86">86</a> </pre></td>
+        </tr>
+        <tr class="uncovered">
+          <td><pre><a name="line87">87</a>       if params[:subject_id]</pre></td>
+        </tr>
+        <tr class="uncovered">
+          <td><pre><a name="line88">88</a>         present informations, with: InformationEntity, user: current_user</pre></td>
+        </tr>
+        <tr class="inferred">
+          <td><pre><a name="line89">89</a>       else</pre></td>
+        </tr>
+        <tr class="uncovered">
+          <td><pre><a name="line90">90</a>         present informations, with: InformationEntity, user: current_user</pre></td>
+        </tr>
+        <tr class="inferred">
+          <td><pre><a name="line91">91</a>       end</pre></td>
+        </tr>
+        <tr class="inferred">
+          <td><pre><a name="line92">92</a> </pre></td>
+        </tr>
+        <tr class="uncovered">
+          <td><pre><a name="line93">93</a>       body has_more: has_more, data: body()</pre></td>
+        </tr>
+        <tr class="inferred">
+          <td><pre><a name="line94">94</a>     end</pre></td>
+        </tr>
+        <tr class="inferred">
+          <td><pre><a name="line95">95</a> </pre></td>
+        </tr>
+        <tr class="inferred">
+          <td><pre><a name="line96">96</a>   end</pre></td>
+        </tr>
+        <tr class="inferred">
+          <td><pre><a name="line97">97</a> end</pre></td>
+        </tr>
+      </tbody>
+    </table>
+
+    <p>Generated on 2014-08-19 12:10:25 +0800 with <a href="https://github.com/fguillen/simplecov-rcov">SimpleCov-RCov 0.2.3</a></p>
+
+  </body>
+</html>

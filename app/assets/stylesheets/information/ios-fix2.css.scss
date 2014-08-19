@@ -1,0 +1,40 @@
+* {
+  -webkit-box-sizing: border-box;
+}
+
+body {
+  &.ios {
+    .bottom-buttons {
+      bottom: 65px;
+    }
+  }
+
+  overflow: hidden;
+
+  .container-information {
+    position: absolute;
+    z-index: 1;
+    top: 0px;
+    left: 0px;
+    bottom: 0px;
+    right: 0px;
+    width: auto;
+    overflow: hidden;
+  }
+
+  #scrip {
+    position: absolute;
+    z-index: 1;
+    -webkit-tap-highlight-color: rgba(0,0,0,0);
+    width: 100%;
+    -webkit-transform: translateZ(0);
+    -webkit-touch-callout: none;
+    -webkit-user-select: none;
+    -webkit-text-size-adjust: none;
+  }
+
+  .bottom-buttons, .add-comment-wrapper, #vote-big {
+    position: absolute;
+  }
+
+}

@@ -1,0 +1,200 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html lang='en' xml:lang='en' xmlns='http://www.w3.org/1999/xhtml'>
+  <head>
+    <title>app/helpers/map_helper.rb</title>
+    <link href="./assets/0.2.3/screen.css" media="all" rel="stylesheet" type="text/css" />
+    <link href="./assets/0.2.3/print.css" media="print" rel="stylesheet" type="text/css" />
+    <meta http-equiv="Content-type" content="text/html;charset=UTF-8" />
+    <script type="text/javascript" src="./assets/0.2.3/rcov.js"></script>
+  </head>
+  <body>
+    <h1>Inkash-api C0 Coverage Information - Simploco - RCov</h1>
+    <h2>app/helpers/map_helper.rb</h2>
+
+    <div class="report_table_wrapper">
+      <table class='report' id='report_table'>
+        <thead>
+          <tr>
+            <th class="left_align">Name</th>
+            <th class="right_align">Total Lines</th>
+            <th class="right_align">Lines of Code</th>
+            <th class="left_align">Total Coverage</th>
+            <th class="left_align">Code Coverage</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td class="left_align"><a href="app-helpers-map_helper_rb.html">app/helpers/map_helper.rb</a></td>
+            <td class='right_align'><tt>47</tt></td>
+            <td class='right_align'><tt>26</tt></td>
+            <td class="left_align"><div class="percent_graph_legend"><tt class=''>57.45%</tt></div>
+      <div class="percent_graph">
+        <div class="covered" style="width:57px"></div>
+        <div class="uncovered" style="width:43px"></div>
+      </div></td>
+            <td class="left_align"><div class="percent_graph_legend"><tt class=''>23.08%</tt></div>
+      <div class="percent_graph">
+        <div class="covered" style="width:23px"></div>
+        <div class="uncovered" style="width:77px"></div>
+      </div></td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+
+    <h3>Key</h3>
+
+    <div class="key"><pre><span class='marked'>Code reported as executed by Ruby looks like this...</span><span class='marked1'>and this: this line is also marked as covered.</span><span class='inferred'>Lines considered as run by rcov, but not reported by Ruby, look like this,</span><span class='inferred1'>and this: these lines were inferred by rcov (using simple heuristics).</span><span class='uncovered'>Finally, here's a line marked as not executed.</span></pre></div>
+
+    <h3>Coverage Details</h3>
+
+    <table class="details">
+      <tbody>
+        <tr class="marked">
+          <td><pre><a name="line2">2</a> module MapHelper</pre></td>
+        </tr>
+        <tr class="inferred">
+          <td><pre><a name="line3">3</a> </pre></td>
+        </tr>
+        <tr class="marked">
+          <td><pre><a name="line4">4</a>   APP_KEY = &quot;4abeaefcc6f753454346f612d8636ba8&quot;</pre></td>
+        </tr>
+        <tr class="marked">
+          <td><pre><a name="line5">5</a>   PLACE_TYPES = %W{商务大厦 地产小区}</pre></td>
+        </tr>
+        <tr class="inferred">
+          <td><pre><a name="line6">6</a> </pre></td>
+        </tr>
+        <tr class="marked">
+          <td><pre><a name="line7">7</a>   def map_url geolocation</pre></td>
+        </tr>
+        <tr class="uncovered">
+          <td><pre><a name="line8">8</a>     &quot;http://api.map.baidu.com/geocoder/v2/?ak=#{APP_KEY}&amp;output=json&amp;pois=1&amp;location=#{geolocation}&quot;</pre></td>
+        </tr>
+        <tr class="inferred">
+          <td><pre><a name="line9">9</a>   end</pre></td>
+        </tr>
+        <tr class="inferred">
+          <td><pre><a name="line10">10</a>   </pre></td>
+        </tr>
+        <tr class="marked">
+          <td><pre><a name="line11">11</a>   def places_by_geolocation geolocation</pre></td>
+        </tr>
+        <tr class="uncovered">
+          <td><pre><a name="line12">12</a>     res = JSON.parse RestClient.get(map_url(geolocation)), symbolize_names: true</pre></td>
+        </tr>
+        <tr class="uncovered">
+          <td><pre><a name="line13">13</a>     res = res[:result]</pre></td>
+        </tr>
+        <tr class="uncovered">
+          <td><pre><a name="line14">14</a>     places = res[:pois].select{|item| PLACE_TYPES.include? item[:poiType] }.sort_by{|item| item[:distance].to_i }</pre></td>
+        </tr>
+        <tr class="uncovered">
+          <td><pre><a name="line15">15</a>     if places.empty?</pre></td>
+        </tr>
+        <tr class="uncovered">
+          <td><pre><a name="line16">16</a>       places = Place.where(ptype: &quot;虚拟地址&quot;).limit(10)</pre></td>
+        </tr>
+        <tr class="uncovered">
+          <td><pre><a name="line17">17</a>       only_virtual = true</pre></td>
+        </tr>
+        <tr class="inferred">
+          <td><pre><a name="line18">18</a>     end</pre></td>
+        </tr>
+        <tr class="uncovered">
+          <td><pre><a name="line19">19</a>     addr = res[:addressComponent]</pre></td>
+        </tr>
+        <tr class="uncovered">
+          <td><pre><a name="line20">20</a>     places = places.map do |item|</pre></td>
+        </tr>
+        <tr class="uncovered">
+          <td><pre><a name="line21">21</a>       if only_virtual</pre></td>
+        </tr>
+        <tr class="uncovered">
+          <td><pre><a name="line22">22</a>         place = item </pre></td>
+        </tr>
+        <tr class="inferred">
+          <td><pre><a name="line23">23</a>       else</pre></td>
+        </tr>
+        <tr class="uncovered">
+          <td><pre><a name="line24">24</a>         place = Place.where({name: item[:name], ptype: item[:poiType], addr: item[:addr], province: addr[:province], city: addr[:city], district: addr[:district]}).first_or_create</pre></td>
+        </tr>
+        <tr class="inferred">
+          <td><pre><a name="line25">25</a>       end</pre></td>
+        </tr>
+        <tr class="uncovered">
+          <td><pre><a name="line26">26</a>       favorited = current_user.favorite_places.where(place_id: place.id).any?</pre></td>
+        </tr>
+        <tr class="uncovered">
+          <td><pre><a name="line27">27</a>       {id: place.id, favorited: favorited, name: place.name, address: place.address, type: place.ptype, image_url: place.image_url}</pre></td>
+        </tr>
+        <tr class="inferred">
+          <td><pre><a name="line28">28</a>     end</pre></td>
+        </tr>
+        <tr class="inferred">
+          <td><pre><a name="line29">29</a>     {</pre></td>
+        </tr>
+        <tr class="inferred">
+          <td><pre><a name="line30">30</a>       address: {</pre></td>
+        </tr>
+        <tr class="inferred">
+          <td><pre><a name="line31">31</a>         name: res[:formatted_address],</pre></td>
+        </tr>
+        <tr class="inferred">
+          <td><pre><a name="line32">32</a>         components: res[:addressComponent]</pre></td>
+        </tr>
+        <tr class="inferred">
+          <td><pre><a name="line33">33</a>       },</pre></td>
+        </tr>
+        <tr class="inferred">
+          <td><pre><a name="line34">34</a>       places: places</pre></td>
+        </tr>
+        <tr class="uncovered">
+          <td><pre><a name="line35">35</a>     }</pre></td>
+        </tr>
+        <tr class="inferred">
+          <td><pre><a name="line36">36</a>   end</pre></td>
+        </tr>
+        <tr class="inferred">
+          <td><pre><a name="line37">37</a> </pre></td>
+        </tr>
+        <tr class="marked">
+          <td><pre><a name="line38">38</a>   def log_location_and_place</pre></td>
+        </tr>
+        <tr class="uncovered">
+          <td><pre><a name="line39">39</a>     if params[:geolocation]</pre></td>
+        </tr>
+        <tr class="uncovered">
+          <td><pre><a name="line40">40</a>       begin</pre></td>
+        </tr>
+        <tr class="uncovered">
+          <td><pre><a name="line41">41</a>         geolocation = params[:geolocation].split(&quot;,&quot;).reverse.join(&quot;,&quot;)</pre></td>
+        </tr>
+        <tr class="uncovered">
+          <td><pre><a name="line42">42</a>         Rails.logger.info &quot;#{params[:geolocation]} - place: #{places_by_geolocation(geolocation)[:places].first}&quot;</pre></td>
+        </tr>
+        <tr class="uncovered">
+          <td><pre><a name="line43">43</a>       rescue Exception</pre></td>
+        </tr>
+        <tr class="inferred">
+          <td><pre><a name="line44">44</a>       end</pre></td>
+        </tr>
+        <tr class="inferred">
+          <td><pre><a name="line45">45</a>     end</pre></td>
+        </tr>
+        <tr class="inferred">
+          <td><pre><a name="line46">46</a>   end</pre></td>
+        </tr>
+        <tr class="inferred">
+          <td><pre><a name="line47">47</a> </pre></td>
+        </tr>
+        <tr class="inferred">
+          <td><pre><a name="line48">48</a> end</pre></td>
+        </tr>
+      </tbody>
+    </table>
+
+    <p>Generated on 2014-08-19 12:10:25 +0800 with <a href="https://github.com/fguillen/simplecov-rcov">SimpleCov-RCov 0.2.3</a></p>
+
+  </body>
+</html>

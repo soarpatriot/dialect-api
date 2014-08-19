@@ -1,0 +1,11 @@
+<h3>尊敬的 <%= @user.email %> ， 您好：</h3>
+<div style='text-indent: 24px'>SoundInk SSP系统已为您开通账户，为了确认您的电子邮件地址并启动您的帐户,请单击以下链接：</div>
+<div style='text-indent: 24px'><a target='_blank' href='<%= @url %>'>点击这里激活账户</a></div>
+<br/>
+<div style='text-indent: 24px'>如果以上链接不能打开，请复制下方地址到您的浏览器地址栏，打开页面后同样可以完成帐户激活。</div>
+<div style='text-indent: 24px'><%= @url %></div>
+<br/>
+<div style='text-indent: 24px'>您的电子邮箱是：<%= @user.email %></div>
+<div style='text-indent: 24px'>请在24小时内激活帐号</div>
+<br/>
+<h2>SoundInk</h2>

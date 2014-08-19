@@ -1,0 +1,23 @@
+/*
+ *= require bootstrap-custom
+ *= require_self
+ *= require information/scrips
+ *= require information/coupons
+ *= require information/ios-fix
+ */
+
+body {
+  padding-top: 10px;
+  padding-bottom: 10px;
+}
+
+input:focus{
+  -webkit-tap-highlight-color: rgba(255, 255, 255, 0);
+  -webkit-user-modify: read-write-plaintext-only;
+}
+
+.container-information{
+  @extend .container;
+  padding-left: 2px;
+  padding-right: 2px;
+}
