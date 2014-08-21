@@ -51,7 +51,7 @@ namespace :deploy do
       within current_path do
         unless test("[ -f #{fetch(:god_pid)} ]")
           info ">>>>>> starting god"
-          execute :god, "-c #{shared_path}/config/inkash-api.god"
+          execute :bundle, "exec god -c #{shared_path}/config/inkash-api.god"
         else
           info ">>>>>> starting application"
           execute :touch, "tmp/restart.txt"
@@ -77,6 +77,23 @@ namespace :deploy do
 
           execute :bundle, "install"
 
+
+      end
+    end
+  end
+
+  desc "start god"
+  task :god do
+    invoke "rvm:hook"
+    on roles(:app) do
+      within current_path do
+        unless test("[ -f #{fetch(:god_pid)} ]")
+          info ">>>>>> starting god"
+          execute :bundle, "exec god -c #{shared_path}/config/inkash-api.god"
+        else
+          info ">>>>>> starting application"
+          execute :touch, "tmp/restart.txt"
+        end
 
       end
     end

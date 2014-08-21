@@ -6,7 +6,6 @@ env_vars = "G2_ENV=production"
 rvm_prefix = "~/.rvm/bin/rvm <%= fetch(:rvm_ruby_version) %> do"
 ruby_path = "#{rvm_prefix} bundle exec ruby"
 
-God.pid_file_directory = '#{app_path}/tmp/pids/god.pid'
 
 (1..2).each do |id|
   God.watch do |w|
