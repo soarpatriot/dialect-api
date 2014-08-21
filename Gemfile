@@ -1,4 +1,4 @@
-source "http://rubygems.org"
+source "http://ruby.taobao.org"
 
 gem "i18n"
 gem "rest-client", "~> 1.6.7"
