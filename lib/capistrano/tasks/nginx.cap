@@ -1,5 +1,6 @@
 namespace :nginx do
 
+  desc "upload nginx config"
   task :update_config do
     on roles :web do
       dest = "#{shared_path}/config/nginx.conf"

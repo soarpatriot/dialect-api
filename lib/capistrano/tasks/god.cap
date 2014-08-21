@@ -1,0 +1,30 @@
+namespace :god do
+
+  desc "upload god config"
+  task :update_config do
+    on roles :web do
+      dest = "#{shared_path}/config/inkash-api.god"
+      upload! from_template("inkash-api.god.erb"), dest
+      info "Uploaded to '#{fetch(:server_name)}@#{dest}'"
+    end
+  end
+
+  desc "god terminate"
+  task :terminate => "rvm:hook" do
+    on roles(:app) do
+      within current_path do
+        execute :bundle, "exec god terminate"
+      end
+    end
+  end
+
+  desc "god load config"
+  task :load => "rvm:hook" do
+    on roles(:app) do
+      within shared_path do
+        execute :god, "load config/inkash-api.god"
+      end
+    end
+  end
+
+end

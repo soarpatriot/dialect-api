@@ -106,6 +106,7 @@ GEM
     ffi (1.9.3)
     formatador (0.2.5)
     geocoder (1.2.4)
+    god (0.13.4)
     goliath (1.0.4)
       async-rack
       em-synchrony (>= 1.0.0)
@@ -315,6 +316,7 @@ DEPENDENCIES
   em-synchrony
   factory_girl
   geocoder
+  god
   goliath
   grape
   grape-entity

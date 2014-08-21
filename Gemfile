@@ -19,7 +19,7 @@ gem 'settingslogic'
 
 gem 'rpush'
 gem 'geocoder'
-
+gem 'god'
 
 gem 'awesome_nested_set'
 gem 'uuidtools'
