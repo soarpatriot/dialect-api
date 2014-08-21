@@ -49,14 +49,9 @@ namespace :deploy do
     invoke "rvm:hook"
     on roles(:app) do
       within current_path do
-        unless test("[ -f #{fetch(:god_pid)} ]")
-          info ">>>>>> starting god"
-          execute :bundle, "exec god -c #{shared_path}/config/inkash-api.god"
-        else
           info ">>>>>> starting application"
           execute :touch, "tmp/restart.txt"
-        end
-
+        
       end
     end
   end
