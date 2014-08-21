@@ -1,3 +1,4 @@
+require_relative "concerns/soft_delete"
 class Scrip < ActiveRecord::Base
   extend Geocoder::Model::ActiveRecord
   # attrs: content image user_id address longitude latitude
