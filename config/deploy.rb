@@ -28,8 +28,8 @@ namespace :deploy do
   task :start do
 
     on roles(:app) do
-      within shared_path do
-        execute :god, "start inkash-api"
+      within current_path do
+        execute :bundle, "exec god start inkash-api"
       end
     end
   end
@@ -38,20 +38,18 @@ namespace :deploy do
   task :stop do
 
     on roles(:app) do
-      within shared_path do
-        execute :god, "stop inkash-api"
+      within current_path do
+        execute :bundle, "exec god stop inkash-api"
       end
     end
   end
 
   desc "Restart application"
   task :restart do
-    invoke "rvm:hook"
     on roles(:app) do
       within current_path do
           info ">>>>>> starting application"
           execute :touch, "tmp/restart.txt"
-        
       end
     end
   end
@@ -68,31 +66,11 @@ namespace :deploy do
   task :bundle do
     on roles(:app) do
       within current_path do
-
-
           execute :bundle, "install"
-
-
       end
     end
   end
 
-  desc "start god"
-  task :god do
-    invoke "rvm:hook"
-    on roles(:app) do
-      within current_path do
-        unless test("[ -f #{fetch(:god_pid)} ]")
-          info ">>>>>> starting god"
-          execute :bundle, "exec god -c #{shared_path}/config/inkash-api.god"
-        else
-          info ">>>>>> starting application"
-          execute :touch, "tmp/restart.txt"
-        end
-
-      end
-    end
-  end
   after :finishing, "deploy:cleanup"
 end
 
