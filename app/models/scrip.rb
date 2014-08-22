@@ -1,4 +1,4 @@
-require_relative "concerns/soft_delete"
+require 'geocoder'
 class Scrip < ActiveRecord::Base
   extend Geocoder::Model::ActiveRecord
   # attrs: content image user_id address longitude latitude
@@ -28,7 +28,7 @@ class Scrip < ActiveRecord::Base
       .order("information.visits_count desc")
   }
 
-  after_create :create_information, :set_username, :set_random_image
+  after_create :create_information, :set_userinfo, :set_random_image
   after_update :delete_comments_if_soft_delete
   after_validation :reverse_geocode, address: :address,  if: ->(obj) {
     (obj.latitude? and obj.longitude?) and (obj.latitude_changed? or obj.longitude_changed?) and obj.address.blank?
@@ -53,6 +53,13 @@ class Scrip < ActiveRecord::Base
     Scrip.offset(Kernel.rand(Scrip.count)).first
   end
 
+  def self.create_first_for_the_place place, user
+    image_uri = "#{G2.config.root_dir}/app/assets/images/scrips/first.jpg"
+    scrip = user.scrips.create content: Settings.first_scrip, image: File.open(image_uri)
+    scrip.information.update place: place
+    scrip.information
+  end
+
   def belongs_to_user?
     self.owner_type == "User"
   end
@@ -66,7 +73,6 @@ class Scrip < ActiveRecord::Base
   end
 
   def union_address
-
     address_arr =%W(#{self.country} #{self.province} #{self.city} #{self.district} #{self.street})
     address_arr.delete_if{|address| address.blank? }
 
@@ -81,8 +87,8 @@ class Scrip < ActiveRecord::Base
     Information.create infoable: self
   end
 
-  def set_username
-    self.update username: self.owner.name
+  def set_userinfo
+    self.update username: self.owner.name, user_avatar: self.owner.avatar.url(:thumb)
   end
 
   def set_random_image

@@ -14,7 +14,7 @@ class ScripEntity < Grape::Entity
     instance.image.url(:thumb)
   end
   expose :middle_image_url, documentation: {required: true, type: "String", desc: "中等尺寸图片地址"} do |instance, options|
-    instance.image.url(:show)
+    instance.image_url
   end
   expose :url,  documentation: {required: true, type: "String", desc: "URL地址"} do |instance, options|
     instance.information.url + "?auth_token=#{options[:auth_token]}&locale=#{I18n.locale}"
@@ -32,7 +32,7 @@ class ScripEntity < Grape::Entity
     instance.username
   end
   expose :owner_avatar_url,  documentation: {required: true, type: "String", desc: "用户头像URL地址"} do |instance, options|
-    instance.owner.avatar_url
+    instance.user_avatar
   end
   expose :place,  documentation: {required: true, type: "String", desc: "地点"} do |instance, options|
     instance.information.place.try(:name)

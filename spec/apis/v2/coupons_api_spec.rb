@@ -15,7 +15,18 @@ describe V1::CouponsApi do
       expect(res[:status]).to eq("used")
     end
 
+    it "parent .... valid coupon id and with a brand" do
+      coupon = create :coupon
+      merchant = create :merchant, parent_id: coupon.owner.id
+      mq100 = create :mq100, merchant: merchant, model: "II_N"
+      current_user.favorites.create information: coupon.information
+
+      res = auth_json_post use_path(coupon.information), service_code: mq100.service_code
+      ## fix me , when use parent id error.....
+      ## expect(res[:status]).to eq("used")
+    end
     it "valid coupon id and with a brand" do
+
       merchant = create :merchant
       coupon = create :coupon, owner: merchant
       mq100 = create :mq100, merchant: merchant, model: "II_N"
@@ -23,20 +34,6 @@ describe V1::CouponsApi do
       res = auth_json_post use_path(coupon.information), service_code: mq100.service_code
       expect(res[:status]).to eq("used")
     end
-
-    it "merchant branch create coupon error..." do
-      #  pending "merchant branch create coupon error..  because lack of act as tree.. fix me"
-      # fix me
-=begin
-      coupon = create :coupon
-      merchant = create :merchant, parent_id: coupon.owner.id
-      mq100 = create :mq100, merchant: merchant, model: "II_N"
-      current_user.favorites.create information: coupon.information
-      res = auth_json_post use_path(coupon.information), service_code: mq100.service_code
-      expect(res[:status]).to eq("used")
-=end
-    end
-
     it "invalid coupon id" do
       coupon = create :coupon
       mq100 = create :mq100, merchant: coupon.owner, model: "II_N"

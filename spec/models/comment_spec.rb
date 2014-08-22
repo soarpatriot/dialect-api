@@ -10,4 +10,10 @@ RSpec.describe Comment, :type => :model do
     expect(scrip.information.comments_count).to eq(0)
   end
 
+  it "emoji" do
+    scrip = create :scrip
+    comment = create :comment, scrip: scrip, content: "emo"
+    expect(comment.content).to eq("emo")
+  end
+
 end

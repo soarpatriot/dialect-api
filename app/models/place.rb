@@ -5,6 +5,7 @@ class Place < ActiveRecord::Base
   has_many :information, dependent: :destroy
   has_many :place_user_relations, dependent: :destroy
   has_many :users, through: :place_user_relations
+  has_many :place_visit_histories, dependent: :destroy
   belongs_to :user
 
   def address

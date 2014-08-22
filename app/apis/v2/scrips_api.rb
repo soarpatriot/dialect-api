@@ -83,6 +83,7 @@ class V2::ScripsApi < Grape::API
 
       unless subject.nil?
         scrip.information.update subject_id: params[:subject_id]
+        Information.where(infoable: subject, place: place).first.try(:touch)
       end
 
       present scrip, with: ScripEntity, auth_token: params[:auth_token]

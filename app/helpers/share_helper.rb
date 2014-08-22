@@ -1,12 +1,12 @@
 module ShareHelper
 
-
   def share_user_page(share_records,before,after)
+
     if after or before
       if after
-        share_records = share_records.where("users.id > ?", after)
+        share_records = share_records.where("id > ?", after)
       elsif before
-        share_records = share_records.where("users.id < ?", before)
+        share_records = share_records.where("id < ?", before)
       end
       sum = share_records.count
       start = sum - Settings.paginate_per_page

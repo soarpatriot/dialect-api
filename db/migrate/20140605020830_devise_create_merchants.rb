@@ -34,8 +34,8 @@ class DeviseCreateMerchants < ActiveRecord::Migration
       t.timestamps
     end
 
-    add_index :merchants, :email,                unique: true
-    add_index :merchants, :reset_password_token, unique: true
+    add_index :merchants, :email,                unique: true, length: { email: (191-4) }
+    add_index :merchants, :reset_password_token, unique: true, length: { reset_password_token: (191-4) }
     # add_index :merchants, :confirmation_token,   unique: true
     # add_index :merchants, :unlock_token,         unique: true
   end

@@ -2,7 +2,6 @@ require "rails_helper"
 
 describe V2::PlacesApi do
   let(:places_path) { "/v2/places" }
-  let(:favorited_places_path) { "" }
   let(:place) { create :place }
 
   def favorited_places_path params={}

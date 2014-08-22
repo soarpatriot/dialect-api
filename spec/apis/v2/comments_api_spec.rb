@@ -3,10 +3,6 @@ require "rails_helper"
 describe V2::CommentsApi do
   let(:comments_path) { "/v2/comments" }
 
-  before do
-    stub_request(:get, map_api_url(39.4, 123.123)).to_return(body: map_api_result)
-  end
-
   it "since" do
     scrip = create :scrip, owner: current_user
     comment = scrip.comments.create content: "test", user: current_user
@@ -67,6 +63,20 @@ describe V2::CommentsApi do
       scrip = create :scrip
       place = create :place
       content = "a new comment"
+      res = auth_json_post comments_path, {content: content, information_id: scrip.information.id, place_id: place.id}
+      expect(Comment.count).to eq(1)
+      comment = Comment.first
+      expect(res[:id]).to eq(comment.id)
+      expect(res[:user_id]).to eq(comment.user_id)
+      expect(res[:information_id]).to eq(scrip.information.id)
+      expect(res[:content]).to eq(content)
+      expect(res[:address]).to eq(place.address)
+    end
+
+    it "success | emoji" do
+      scrip = create :scrip
+      place = create :place
+      content = "ff"
       res = auth_json_post comments_path, {content: content, information_id: scrip.information.id, place_id: place.id}
       expect(Comment.count).to eq(1)
       comment = Comment.first

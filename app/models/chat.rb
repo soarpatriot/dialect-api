@@ -5,6 +5,8 @@ class Chat < ActiveRecord::Base
   belongs_to :last_sender, polymorphic: true
   belongs_to :owner, polymorphic: true
   belongs_to :target, polymorphic: true
+  has_many :messages, dependent: :destroy
+
   after_create :set_last_sync_at
 
   def information

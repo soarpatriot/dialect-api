@@ -38,6 +38,7 @@ describe V2::InformationsApi do
     "/v2/informations/#{information.id}/users/shared"
   end
 
+=begin
   it "add to favorite" do
     scrip = create :scrip
     information = scrip.information
@@ -69,9 +70,6 @@ describe V2::InformationsApi do
   end
 
   context "delete" do
-    before do
-      stub_request(:get, map_api_url(39.4, 123.123)).to_return(body: map_api_result)
-    end
 
     it "valid id" do
       scrip = create :scrip, owner: current_user
@@ -154,7 +152,7 @@ describe V2::InformationsApi do
       expect(res[:error]).to eq(I18n.t("information.invalid_id"))
     end
   end
-
+=end
   context "users favorited" do
     it "no favorited" do
       information = create :information, infoable: create(:scrip)
@@ -196,7 +194,7 @@ describe V2::InformationsApi do
       information = create :information, infoable: create(:scrip)
       create_list(:favorite, count, information: information )
       favorite = create(:favorite,information: information )
-      res = auth_json_get users_favorite_path(information), before: favorite.user.id
+      res = auth_json_get users_favorite_path(information), before: favorite.id
       expect(res[:has_more]).to eq(true)
       expect(res[:data].size).to eq(Settings.paginate_per_page)
     end
@@ -206,7 +204,7 @@ describe V2::InformationsApi do
       information = create :information, infoable: create(:scrip)
       favorite = create(:favorite,information: information )
       create_list(:favorite, count, information: information )
-      res = auth_json_get users_favorite_path(information), before: favorite.user.id
+      res = auth_json_get users_favorite_path(information), before: favorite.id
       expect(res[:has_more]).to eq(false)
       expect(res[:data].size).to eq(0)
     end
@@ -216,7 +214,7 @@ describe V2::InformationsApi do
       information = create :information, infoable: create(:scrip)
       favorite = create(:favorite,information: information )
       create_list(:favorite, count, information: information )
-      res = auth_json_get users_favorite_path(information), after: favorite.user.id
+      res = auth_json_get users_favorite_path(information), after: favorite.id
       expect(res[:has_more]).to eq(true)
       expect(res[:data].size).to eq(Settings.paginate_per_page)
     end
@@ -225,16 +223,18 @@ describe V2::InformationsApi do
       count = Settings.paginate_per_page*5
       information = create :information, infoable: create(:scrip)
       create_list(:favorite, count, information: information )
+
       favorite = create(:favorite,information: information )
       create_list(:favorite, count, information: information )
 
-      res = auth_json_get users_favorite_path(information), after: favorite.user.id
+      res = auth_json_get users_favorite_path(information), before: favorite.id
       expect(res[:has_more]).to eq(true)
       expect(res[:data].size).to eq(Settings.paginate_per_page)
-      res = auth_json_get users_favorite_path(information), after: favorite.user.id
+      res = auth_json_get users_favorite_path(information), after: favorite.id
       expect(res[:has_more]).to eq(true)
       expect(res[:data].size).to eq(Settings.paginate_per_page)
     end
+
   end
 
   context "users commented" do
@@ -255,14 +255,14 @@ describe V2::InformationsApi do
     end
 
 
-    it "duplicated user comment,show two user" do
+    it "duplicated user comment,show one user" do
       scrip = create(:scrip)
       information = create :information, infoable:scrip
       create :comment, scrip:scrip, user: current_user
       create :comment, scrip:scrip, user: current_user
       res = auth_json_get users_commented_path(information)
       expect(res[:has_more]).to eq(false)
-      expect(res[:data].size).to eq(2)
+      expect(res[:data].size).to eq(1)
     end
 
     it "more commented,get one page" do
@@ -281,7 +281,7 @@ describe V2::InformationsApi do
       information = create :information, infoable: scrip
       create_list(:comment, count, scrip: scrip)
       comment = create(:comment,scrip: scrip )
-      res = auth_json_get users_commented_path(information), before: comment.user.id
+      res = auth_json_get users_commented_path(information), before: comment.id
       expect(res[:has_more]).to eq(true)
       expect(res[:data].size).to eq(Settings.paginate_per_page)
     end
@@ -292,7 +292,7 @@ describe V2::InformationsApi do
       information = create :information, infoable: scrip
       comment = create(:comment,scrip: scrip )
       create_list(:comment, count, scrip: scrip )
-      res = auth_json_get users_commented_path(information), before: comment.user.id
+      res = auth_json_get users_commented_path(information), before: comment.id
       expect(res[:has_more]).to eq(false)
       expect(res[:data].size).to eq(0)
     end
@@ -303,7 +303,7 @@ describe V2::InformationsApi do
       information = create :information, infoable: scrip
       comment = create(:comment,scrip: scrip )
       create_list(:comment, count, scrip: scrip)
-      res = auth_json_get users_commented_path(information), after: comment.user.id
+      res = auth_json_get users_commented_path(information), after: comment.id
       expect(res[:has_more]).to eq(true)
       expect(res[:data].size).to eq(Settings.paginate_per_page)
     end
@@ -317,15 +317,40 @@ describe V2::InformationsApi do
       comment = create(:comment,scrip: scrip )
       create_list(:comment, count, scrip: scrip )
 
-      res = auth_json_get users_commented_path(information), after: comment.user.id
+      res = auth_json_get users_commented_path(information), before: comment.id
       expect(res[:has_more]).to eq(true)
       expect(res[:data].size).to eq(Settings.paginate_per_page)
 
-      res = auth_json_get users_commented_path(information), after: comment.user.id
+      res = auth_json_get users_commented_path(information), after: comment.id
       expect(res[:has_more]).to eq(true)
       expect(res[:data].size).to eq(Settings.paginate_per_page)
     end
 
+    it "duplicated commented" do
+      count = Settings.paginate_per_page*2
+      scrip = create(:scrip)
+      information = create :information, infoable: scrip
+
+      create_list(:comment, count, scrip: scrip, user:current_user )
+      comment1 = create(:comment,scrip: scrip )
+      create_list(:comment, count, scrip:scrip, user:current_user )
+
+      comment2 = create(:comment,scrip: scrip )
+      res = auth_json_get users_commented_path(information), before: comment1.id
+
+      expect(res[:has_more]).to eq(false)
+      expect(res[:data].size).to eq(0)
+
+      res = auth_json_get users_commented_path(information), after: comment1.id
+
+      expect(res[:has_more]).to eq(false)
+      expect(res[:data].size).to eq(2)
+
+      res = auth_json_get users_commented_path(information), before: comment2.id
+
+      expect(res[:has_more]).to eq(false)
+      expect(res[:data].size).to eq(2)
+    end
   end
 
 
@@ -368,16 +393,62 @@ describe V2::InformationsApi do
       information_share_record =  create :information_share_record, information: information, user: create(:user)
       create_list(:information_share_record, count, information: information)
 
-      res = auth_json_get users_shared_path(information), after: information_share_record.user.id
+      res = auth_json_get users_shared_path(information), after: information_share_record.id
+
       expect(res[:has_more]).to eq(true)
       expect(res[:data].size).to eq(Settings.paginate_per_page)
-      res = auth_json_get users_shared_path(information), after: information_share_record.user.id
+      res = auth_json_get users_shared_path(information), after: information_share_record.id
+
       expect(res[:has_more]).to eq(true)
       expect(res[:data].size).to eq(Settings.paginate_per_page)
     end
+
+    it "duplicated shared" do
+      count = Settings.paginate_per_page*1
+      scrip = create(:scrip)
+      information = create :information, infoable: scrip
+
+      user1 = create(:user)
+      user2 = create(:user)
+      create :information_share_record, information: information, user: user1
+      create :information_share_record, information: information, user: user2
+      create :information_share_record, information: information, user: user2
+      create :information_share_record, information: information, user: user1
+      information_share_record1 =  create :information_share_record, information: information, user: create(:user)
+      create :information_share_record, information: information, user: user1
+      create :information_share_record, information: information, user: user2
+      information_share_record2 =create :information_share_record, information: information, user: user2
+
+      create_list(:information_share_record, count, information: information)
+      information_share_record3 =  create :information_share_record, information: information, user: create(:user)
+      create :information_share_record, information: information, user: user1
+
+      res = auth_json_get users_shared_path(information), before: information_share_record1.id
+      expect(res[:has_more]).to eq(false)
+      expect(res[:data].size).to eq(0)
+
+      res = auth_json_get users_shared_path(information), before: information_share_record2.id
+
+      expect(res[:has_more]).to eq(false)
+      expect(res[:data].size).to eq(1)
+
+      res = auth_json_get users_shared_path(information), after: information_share_record2.id
+      expect(res[:has_more]).to eq(true)
+      expect(res[:data].size).to eq(Settings.paginate_per_page)
+
+      res = auth_json_get users_shared_path(information), after: information_share_record3.id
+
+      expect(res[:has_more]).to eq(false)
+      expect(res[:data].size).to eq(1)
+
+
+
+    end
   end
 
+
   context "users visited" do
+
 
     it "no visited" do
       scrip = create(:scrip)
@@ -415,12 +486,37 @@ describe V2::InformationsApi do
       information_visit_record =  create :information_visit_record, information: information, user: create(:user)
       create_list(:information_visit_record, count, information: information)
 
-      res = auth_json_get users_visited_path(information), after: information_visit_record.user.id
+      res = auth_json_get users_visited_path(information), after: information_visit_record.id
       expect(res[:has_more]).to eq(true)
       expect(res[:data].size).to eq(Settings.paginate_per_page)
-      res = auth_json_get users_visited_path(information), after: information_visit_record.user.id
+      res = auth_json_get users_visited_path(information), after: information_visit_record.id
       expect(res[:has_more]).to eq(true)
       expect(res[:data].size).to eq(Settings.paginate_per_page)
+    end
+
+
+    it "duplicated use visited" do
+      count = Settings.paginate_per_page*5
+      scrip = create(:scrip)
+      information = create :information, infoable: scrip
+      # create_list(:information_visit_record, count, information: information)
+      # information_visit_record =  create :information_visit_record, information: information, user: create(:user)
+      user = create(:user)
+      create_list(:information_visit_record, count, information: information,user:user )
+      information_visit_record2 =  create :information_visit_record, information: information, user:current_user
+
+      information_visit_record3 =  create :information_visit_record, information: information, user:user
+      create_list(:information_visit_record, count, information: information,user:current_user )
+
+
+      res = auth_json_get users_visited_path(information), before: information_visit_record2.id
+      expect(res[:has_more]).to eq(false)
+      expect(res[:data].size).to eq(0)
+
+      res = auth_json_get users_visited_path(information), after: information_visit_record2.id
+      expect(res[:has_more]).to eq(false)
+      expect(res[:data].size).to eq(2)
+
     end
   end
 end

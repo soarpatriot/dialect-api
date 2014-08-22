@@ -22,9 +22,9 @@ module CommentHelper
   def comment_user_page(comments,before,after)
     if after or before
       if after
-        comments = comments.where("users.id > ?", after)
+        comments = comments.where("id > ?", after)
       elsif before
-        comments = comments.where("users.id < ?", before)
+        comments = comments.where("id < ?", before)
       end
       sum = comments.count
       start = sum - Settings.paginate_per_page

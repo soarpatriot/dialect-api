@@ -23,7 +23,7 @@ module MapHelper
         place = Place.where({name: item[:name], ptype: item[:poiType], addr: item[:addr], province: addr[:province], city: addr[:city], district: addr[:district]}).first_or_create
       end
       favorited = current_user.favorite_places.where(place_id: place.id).any?
-      {id: place.id, favorited: favorited, name: "#{place.name}", address: place.address, type: place.ptype, image_url: place.image_url}
+      {id: place.id, favorited: favorited, name: "#{place.name} • #{place.city.try(:gsub, "市", "")}", address: place.address, type: place.ptype, image_url: place.image_url}
     end
     {
       address: {

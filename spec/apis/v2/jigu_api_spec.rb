@@ -17,10 +17,6 @@ describe V2::JiguApi do
     url
   end
 
-  before(:each) do
-    stub_request(:get, map_api_url(39.4, 123.123)).to_return(body: map_api_result)
-  end
-
   context "jigu" do
     context "first" do
       it "get coupon" do
@@ -167,11 +163,16 @@ describe V2::JiguApi do
       expect(res[:data].first[:id]).to eq(scrip.information.id)
     end
 
+    it "get first jigu of a new place" do
+      place = create :place
+      res = auth_json_get jigu_list_path(place_id: place.id)
+    end
+
     it "get jigu list of current subject" do
       place = create :place
       subject = create :subject
       scrip = create :scrip
-      scrip.information.update subject_id: subject.id
+      scrip.information.update subject_id: subject.id, place_id: place.id
 
       subject2 = create :subject
       scrip2 = create :scrip
@@ -183,7 +184,7 @@ describe V2::JiguApi do
 
       scrips = create_list :scrip, 2
       scrips.each do |item|
-        item.information.update subject_id: subject.id
+        item.information.update subject_id: subject.id, place_id: place.id
       end
 
       res = auth_json_get jigu_list_path(place_id: place.id, subject_id: subject.id)

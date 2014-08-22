@@ -22,13 +22,15 @@ class V2::GeocoderApi < Grape::API
       requires :geolocation, type: String, regexp: /^(\-?\d+(\.\d+)?),\s*(\-?\d+(\.\d+)?)$/, desc: "lon,lat"
     end
     get "random" do
-      offset = rand Place.count(:all)
-      place = Place.offset(offset).first
+      place_ids = Place.joins(:information).group("places.id").having("count(information.id) > 0").count.keys
+      random_index = rand place_ids.size
+      place = Place.find place_ids[random_index]
       favorited = current_user.favorite_places.where(place_id: place.id).any?
+
       {
         id: place.id,
         favorited: favorited,
-        name: place.name,
+        name: "#{place.name} • #{place.city.try(:gsub, "市", "")}",
         address: place.address,
         image_url: place.image_url,
         type: place.ptype,

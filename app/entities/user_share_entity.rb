@@ -1,5 +1,11 @@
 class UserShareEntity < Grape::Entity
-  expose :id,            documentation: {required: true, type: "Integer", desc: "user id"} do |instance, options|
+  expose :id,            documentation: {required: true, type: "Integer", desc: "information id"} do |instance, options|
+    instance.information_id
+  end
+  expose :sort_id,            documentation: {required: true, type: "Integer", desc: "sort shared id"} do |instance, options|
+    instance.id
+  end
+  expose :user_id,            documentation: {required: true, type: "Integer", desc: "user id"} do |instance, options|
     instance.user.id
   end
   expose :nickname,      documentation: {required: true, type: "String"} do |instance, options|

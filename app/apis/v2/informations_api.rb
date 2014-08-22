@@ -116,15 +116,14 @@ class V2::InformationsApi < Grape::API
     }
     params do
       requires :id, type: Integer
-      optional :after, type: Integer, desc: "查询大于此user id的赞"
-      optional :before, type: Integer, desc: "查询小于此user id的赞"
+      optional :after, type: Integer, desc: "查询大于此favorited id的赞"
+      optional :before, type: Integer, desc: "查询小于此favorited id的赞"
     end
     get ":id/users/favorited" do
 
       information = Information.find params[:id]
       if information.is_scrip?
-        favorites = Favorite.joins(:user).where('favorites.information_id' => information.id).order("favorites.id desc").distinct
-        #users = User.joins(:favorites).where('favorites.information_id' => information.id).order("users.id desc").distinct
+        favorites = Favorite.group("user_id").where("information_id"=>information.id)
         user_favorite_page(favorites,params[:before], params[:after])
       else
         error! I18n.t("information.invalid_id"), 400
@@ -136,13 +135,16 @@ class V2::InformationsApi < Grape::API
     }
     params do
       requires :id, type: Integer
-      optional :after, type: Integer, desc: "查询大于此user id的评论用户"
-      optional :before, type: Integer, desc: "查询小于此user id的评论用户"
+      optional :after, type: Integer, desc: "查询大于此comment id的评论用户"
+      optional :before, type: Integer, desc: "查询小于此comment id的评论用户"
     end
     get ":id/users/commented" do
       information = Information.find params[:id]
       if information.is_scrip?
-        comments = Comment.joins(:user).where('comments.scrip_id' => information.infoable_id).order("comments.id desc").distinct
+        # comments = Comment.joins(:user).where('comments.scrip_id' => information.infoable_id).order("comments.id desc").distinct
+        ids =  Comment.find_by_sql("SELECT max(id) as id FROM comments where scrip_id="+information.infoable_id.to_s+" group by user_id order by id desc")
+        comments = Comment.where("id"=>ids)
+        #comments = Comment.group("user_id").where("scrip_id"=>information.infoable_id)
         comment_user_page(comments,params[:before], params[:after])
       else
         error! I18n.t("information.invalid_id"), 400
@@ -155,14 +157,16 @@ class V2::InformationsApi < Grape::API
     }
     params do
       requires :id, type: Integer
-      optional :after, type: Integer, desc: "查询大于此user id的分享用户"
-      optional :before, type: Integer, desc: "查询小于此user id的分享用户"
+      optional :after, type: Integer, desc: "查询大于此shared id的分享用户"
+      optional :before, type: Integer, desc: "查询小于此shared id的分享用户"
     end
     get ":id/users/shared" do
       information = Information.find params[:id]
       if information.is_scrip?
-        share_records = InformationShareRecord.joins(:user).where('information_id' => information.id).distinct
+        ids =  InformationShareRecord.find_by_sql("SELECT max(id) as id FROM information_share_records where information_id="+information.id.to_s+" group by user_id order by id desc")
+        share_records = InformationShareRecord.where("id"=>ids)
         share_user_page(share_records,params[:before], params[:after])
+
       else
         error! I18n.t("information.invalid_id"), 400
       end
@@ -173,15 +177,20 @@ class V2::InformationsApi < Grape::API
     }
     params do
       requires :id, type: Integer
-      optional :after, type: Integer, desc: "查询大于此user id的浏览过用户"
-      optional :before, type: Integer, desc: "查询小于此user id的浏览过用户"
+      optional :after, type: Integer, desc: "查询大于此visited id的浏览过用户"
+      optional :before, type: Integer, desc: "查询小于此visited id的浏览过用户"
     end
     get ":id/users/visited" do
       information = Information.find params[:id]
       if information.is_scrip?
-        visit_records = InformationVisitRecord.joins(:user).where('information_id' => information.id).distinct
-        #users = User.joins(:information_visit_records).where('information_visit_records.information_id' => information.id).distinct
-        visit_user_page(visit_records,params[:before], params[:after])
+
+        ids =  InformationVisitRecord.find_by_sql("SELECT max(id) as id FROM information_visit_records where information_id="+information.id.to_s+" group by user_id order by id desc")
+
+        # visit_records = InformationVisitRecord.group("user_id").where("information_id"=>information.id)
+
+        visit_records = InformationVisitRecord.where("id"=>ids)
+        visit_user_page(visit_records,params[:before],params[:after])
+
       else
         error! I18n.t("information.invalid_id"), 400
       end

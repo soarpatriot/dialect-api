@@ -6,7 +6,7 @@ app_env = "production"
 log_path = "#{app_path}/log/production.log"
 env_vars = "G2_ENV=production"
 rvm_prefix = "~/.rvm/bin/rvm <%= fetch(:rvm_ruby_version) %> do"
-ruby_path = "#{rvm_prefix} bundle exec ruby"
+ruby_path = "#{env_vars} #{rvm_prefix} bundle exec ruby"
 
 require "#{app_path}/lib/god_restart_file.rb"
 

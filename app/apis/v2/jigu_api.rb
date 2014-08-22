@@ -64,17 +64,15 @@ class V2::JiguApi < Grape::API
 
       if params[:subject_id]
         subject = Subject.find params[:subject_id]
-        informations = subject.informations.where("infoable_type = 'Scrip'")
+        informations = subject.informations.where("infoable_type = 'Scrip' and place_id = ?", params[:place_id])
       else
-        if params[:before]
-          informations = place.information.where("infoable_type <> 'Coupon' and subject_id is null")
-        else
-          informations = place.information.where("infoable_type <> 'Coupon'")
+        Subject.where(category: place.ptype).each do |_subject|
+          Information.where(infoable: _subject, place: place).first_or_create
         end
-        informations = informations.order("infoable_type desc")
+        informations = place.information.where("infoable_type <> 'Coupon' and subject_id is null")
       end
 
-      informations = informations.order("id desc")
+      informations = informations.order("updated_at desc")
 
       if params[:before]
         informations = informations.where("id < ?", params[:before])
@@ -85,7 +83,11 @@ class V2::JiguApi < Grape::API
         informations = informations.limit Settings.paginate_per_page
       else
         has_more = (informations.count - Settings.paginate_per_page) > 0
-        informations = informations.limit Settings.paginate_per_page
+        informations = informations.limit(Settings.paginate_per_page)
+      end
+
+      if params[:subject_id].nil? and !informations.map(&:infoable_type).include?("Scrip")
+        informations = informations.unshift current_user.scrips.create_first_for_the_place(place, current_user)
       end
 
       present informations, with: InformationEntity, user: current_user

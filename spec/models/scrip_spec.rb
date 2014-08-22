@@ -30,7 +30,8 @@ RSpec.describe Scrip, :type => :model do
   context "geolocation" do
     it "geocode if address blank" do
       stub_request(:get, map_api_url(39.400, 123.123)).to_return(body: map_api_result)
-      scrip = create :scrip, address: ""
+      binding.pry
+      scrip = create :scrip, address:""
       expect(scrip.address).to eq("辽宁省大连市长海县")
 
       scrip = create :scrip, address: "address"

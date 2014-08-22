@@ -25,11 +25,7 @@ class FavoriteInformationEntity < Grape::Entity
     end
   end
   expose :middle_image_url, documentation: {required: true, type: "String", desc: "中等尺寸图片地址"} do |instance, options|
-    if instance.information.is_scrip?
-      instance.information.try(:infoable).try(:image).try(:url, :show)
-    else
-      instance.information.try(:infoable).try(:image_url)
-    end
+    instance.information.try(:infoable).try(:image_url)
   end
   expose :url,  documentation: {required: true, type: "String", desc: "URL地址"} do |instance, options|
     instance.information.url + "?auth_token=#{options[:auth_token]}&locale=#{I18n.locale}"
@@ -47,7 +43,11 @@ class FavoriteInformationEntity < Grape::Entity
     instance.information.infoable.try(:owner).try(:name)
   end
   expose :owner_avatar_url,  documentation: {required: true, type: "String", desc: "用户头像URL地址"} do |instance, options|
-    instance.information.infoable.try(:owner).try(:avatar_url)
+    if instance.information.is_scrip?
+      instance.information.try(:infoable).try(:user_avatar)
+    else
+      instance.information.infoable.try(:owner).try(:avatar_url)
+    end
   end
   expose :place,  documentation: {required: true, type: "String", desc: "地点"} do |instance, options|
     instance.information.place.try(:name)

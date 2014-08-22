@@ -22,11 +22,7 @@ class InformationEntity < Grape::Entity
     end
   end
   expose :middle_image_url, documentation: {required: true, type: "String", desc: "中等尺寸图片地址"} do |instance, options|
-    if instance.is_scrip?
-      instance.try(:infoable).try(:image).try(:url, :show)
-    else
-      instance.try(:infoable).try(:image_url)
-    end
+    instance.try(:infoable).try(:image_url)
   end
   expose :url,  documentation: {required: true, type: "String", desc: "URL地址"} do |instance, options|
     instance.url + "?auth_token=#{options[:auth_token]}&locale=#{I18n.locale}"
@@ -44,10 +40,18 @@ class InformationEntity < Grape::Entity
     instance.infoable.try(:owner_type)
   end
   expose :owner_nickname,  documentation: {required: true, type: "String", desc: "用户昵称"} do |instance, options|
-    instance.infoable.try(:owner).try(:name)
+    if instance.is_scrip?
+      instance.try(:infoable).try(:username)
+    else
+      instance.infoable.try(:owner).try(:name)
+    end
   end
   expose :owner_avatar_url,  documentation: {required: true, type: "String", desc: "用户头像URL地址"} do |instance, options|
-    instance.infoable.try(:owner).try(:avatar_url)
+    if instance.is_scrip?
+      instance.try(:infoable).try(:user_avatar)
+    else
+      instance.infoable.try(:owner).try(:avatar_url)
+    end
   end
   expose :place,  documentation: {required: true, type: "String", desc: "地点"} do |instance, options|
     instance.place.try(:name)

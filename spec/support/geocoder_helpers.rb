@@ -26,7 +26,7 @@ module GeocoderHelpers
 
   def map_api_url lat, lon
 
-    # "http://api.map.baidu.com/geocoder/v2/?ak=4abeaefcc6f753454346f612d8636ba8&location=#{lat},#{lon}&output=json"
+    "http://api.map.baidu.com/geocoder/v2/?ak=4abeaefcc6f753454346f612d8636ba8&location=#{lat},#{lon}&output=json"
   end
 
 end

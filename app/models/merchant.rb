@@ -1,7 +1,7 @@
 require 'acts_as_tree'
 class Merchant < ActiveRecord::Base
 
-  # acts_as_tree
+  includes ActsAsTree
   # Include default devise modules. Others available are:
   # :confirmable, :lockable, :timeoutable and :omniauthable
   #devise :database_authenticatable,

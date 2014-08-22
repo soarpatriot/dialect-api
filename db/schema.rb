@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20140813075710) do
+ActiveRecord::Schema.define(version: 20140821084921) do
 
   create_table "admins", force: true do |t|
     t.string   "email",                  default: "", null: false
@@ -28,8 +28,8 @@ ActiveRecord::Schema.define(version: 20140813075710) do
     t.datetime "updated_at"
   end
 
-  add_index "admins", ["email"], name: "index_admins_on_email", unique: true, using: :btree
-  add_index "admins", ["reset_password_token"], name: "index_admins_on_reset_password_token", unique: true, using: :btree
+  add_index "admins", ["email"], name: "index_admins_on_email", unique: true, length: {"email"=>187}, using: :btree
+  add_index "admins", ["reset_password_token"], name: "index_admins_on_reset_password_token", unique: true, length: {"reset_password_token"=>187}, using: :btree
 
   create_table "auth_tokens", force: true do |t|
     t.string   "value"
@@ -139,7 +139,7 @@ ActiveRecord::Schema.define(version: 20140813075710) do
 
   create_table "coupons", force: true do |t|
     t.float    "amount"
-    t.datetime "expire_at",   default: '2014-07-13 02:08:22'
+    t.datetime "expire_at",   default: '2014-09-21 06:55:58'
     t.integer  "merchant_id"
     t.integer  "user_id"
     t.integer  "status"
@@ -265,8 +265,20 @@ ActiveRecord::Schema.define(version: 20140813075710) do
     t.float    "latitude"
   end
 
-  add_index "merchants", ["email"], name: "index_merchants_on_email", unique: true, using: :btree
-  add_index "merchants", ["reset_password_token"], name: "index_merchants_on_reset_password_token", unique: true, using: :btree
+  add_index "merchants", ["email"], name: "index_merchants_on_email", unique: true, length: {"email"=>187}, using: :btree
+  add_index "merchants", ["reset_password_token"], name: "index_merchants_on_reset_password_token", unique: true, length: {"reset_password_token"=>187}, using: :btree
+
+  create_table "messages", force: true do |t|
+    t.integer  "chat_id"
+    t.string   "avatar"
+    t.integer  "user_id"
+    t.string   "name"
+    t.text     "content"
+    t.datetime "created_at"
+    t.datetime "updated_at"
+  end
+
+  add_index "messages", ["chat_id"], name: "index_messages_on_chat_id", using: :btree
 
   create_table "mq100s", force: true do |t|
     t.string   "service_code"
@@ -286,6 +298,16 @@ ActiveRecord::Schema.define(version: 20140813075710) do
 
   add_index "place_user_relations", ["place_id"], name: "index_place_user_relations_on_place_id", using: :btree
   add_index "place_user_relations", ["user_id"], name: "index_place_user_relations_on_user_id", using: :btree
+
+  create_table "place_visit_histories", force: true do |t|
+    t.integer  "place_id"
+    t.integer  "user_id"
+    t.datetime "created_at"
+    t.datetime "updated_at"
+  end
+
+  add_index "place_visit_histories", ["place_id"], name: "index_place_visit_histories_on_place_id", using: :btree
+  add_index "place_visit_histories", ["user_id"], name: "index_place_visit_histories_on_user_id", using: :btree
 
   create_table "places", force: true do |t|
     t.string   "name"
@@ -383,6 +405,7 @@ ActiveRecord::Schema.define(version: 20140813075710) do
     t.string   "username"
     t.boolean  "is_destroyed", default: false
     t.string   "from"
+    t.string   "user_avatar",  default: ""
   end
 
   create_table "soundink_codes", force: true do |t|
@@ -413,6 +436,7 @@ ActiveRecord::Schema.define(version: 20140813075710) do
     t.integer  "owner_id"
     t.datetime "created_at"
     t.datetime "updated_at"
+    t.string   "category"
   end
 
   create_table "terms", force: true do |t|
@@ -434,6 +458,15 @@ ActiveRecord::Schema.define(version: 20140813075710) do
     t.integer  "gender",          default: 0
     t.integer  "group",           default: 0
     t.string   "connection_id"
+  end
+
+  create_table "versions", force: true do |t|
+    t.string   "url"
+    t.string   "platform"
+    t.integer  "code"
+    t.boolean  "mandatory"
+    t.datetime "created_at"
+    t.datetime "updated_at"
   end
 
   create_table "votes", force: true do |t|

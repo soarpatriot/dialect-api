@@ -12,7 +12,6 @@ describe V2::CollectionsApi do
     }
 
     before do
-      stub_request(:get, map_api_url(39.4, 123.123)).to_return(body: map_api_result)
       favorites
     end
 

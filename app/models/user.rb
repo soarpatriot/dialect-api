@@ -6,6 +6,7 @@ class User < ActiveRecord::Base
 
   acts_as_voter
   mount_uploader :avatar, UserAvatarUploader
+  skip_callback :save, :after, :remove_previously_stored_avatar
 
   validates :nickname, :mobile_number, :password_digest, presence:true
   validates :nickname, :mobile_number, uniqueness: true
@@ -31,6 +32,7 @@ class User < ActiveRecord::Base
   has_many :devices, dependent: :destroy
   has_many :place_user_relations, dependent: :destroy
   has_many :places, through: :place_user_relations
+  has_many :place_visit_histories, dependent: :destroy
 
   delegate :service_code, to: :soundink_code, allow_nil: true
 
@@ -78,7 +80,6 @@ class User < ActiveRecord::Base
   end
 
   def set_random_avatar
-
     self.update avatar: File.open("#{G2.config.root_dir}/app/assets/images/avatars/#{(rand(10) + 1)}.jpg")
   end
 

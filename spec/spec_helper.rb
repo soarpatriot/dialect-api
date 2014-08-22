@@ -23,6 +23,9 @@ require File.expand_path('../../config/application', __FILE__)
 
 Dir[G2.config.root_dir + "/spec/support/**/*.rb"].each{|f| require f }
 
+# WebMock.disable_net_connect!(:allow_localhost => true)
+WebMock.allow_net_connect!
+
 RSpec.configure do |config|
   config.order = "random"
 end

@@ -1,4 +1,4 @@
-require 'information_entity'
+require "information_entity"
 class ChatEntity < Grape::Entity
   expose :id,     documentation: {required: true, type: "Integer", desc: "id"}
   expose :type,   documentation: {required: true, type: "String", desc: "类型"} do |instance, options|

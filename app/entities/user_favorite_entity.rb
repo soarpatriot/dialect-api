@@ -1,5 +1,11 @@
 class UserFavoriteEntity < Grape::Entity
-  expose :id,            documentation: {required: true, type: "Integer", desc: "user id"} do |instance, options|
+  expose :id,            documentation: {required: true, type: "Integer", desc: "information id"} do |instance, options|
+    instance.information_id
+  end
+  expose :sort_id,            documentation: {required: true, type: "Integer", desc: "sort favorite id"} do |instance, options|
+    instance.id
+  end
+  expose :user_id,            documentation: {required: true, type: "Integer", desc: "user id"} do |instance, options|
     instance.user.id
   end
   expose :nickname,      documentation: {required: true, type: "String"} do |instance, options|
@@ -17,7 +23,7 @@ class UserFavoriteEntity < Grape::Entity
   expose :service_code,  documentation: {required: true, type: "String"} do |instance, options|
     instance.user.service_code
   end
-  expose :created_at, documentation: {required: true, type: "String", desc: "用户点赞的时间"}  do |instance, options|
+  expose :created_at, documentation: {required: true, type: "String", desc: "用户赞的时间"}  do |instance, options|
     instance.created_at.localtime.to_formatted_s(:db)
   end
 end
