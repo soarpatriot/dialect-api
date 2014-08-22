@@ -1,3 +1,5 @@
+
+
 app_path = "<%= current_path %>"
 
 app_env = "production"
@@ -6,6 +8,7 @@ env_vars = "G2_ENV=production"
 rvm_prefix = "~/.rvm/bin/rvm <%= fetch(:rvm_ruby_version) %> do"
 ruby_path = "#{rvm_prefix} bundle exec ruby"
 
+require "#{app_path}/lib/god_restart_file.rb"
 
 (1..2).each do |id|
   God.watch do |w|
