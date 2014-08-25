@@ -6,6 +6,6 @@ class Captcha < ActiveRecord::Base
   private
 
   def set_code
-    self.code = SecureRandom.hex(2)
+    self.code = SecureRandom.random_number(10000).to_s
   end
 end
