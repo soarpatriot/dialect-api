@@ -1,4 +1,4 @@
-require "rails_helper"
+require "spec_helper"
 
 describe V2::FeedbacksApi do
   let(:feedbacks_path) { "/v2/feedbacks" }

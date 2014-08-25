@@ -28,7 +28,6 @@ gem 'pry'
 gem 'activerecord', '~> 4.1.1'
 gem 'actionmailer', '~> 4.1.1'
 gem 'bcrypt'
-gem 'paperclip'
 gem 'delete_paranoid'
 gem 'mini_magick'
 gem 'carrierwave', :require => %w(carrierwave carrierwave/orm/activerecord)
@@ -43,7 +42,6 @@ end
 
 group :development do
   gem 'guard-rspec'
-
   gem 'capistrano'
   gem 'capistrano-bundler'
   gem 'capistrano-rvm'
@@ -60,6 +58,5 @@ group :test do
   gem 'webmock'
   gem 'spring'
   gem 'spring-commands-rspec'
-
   gem 'rack-test', require: 'rack/test'
 end

@@ -1,4 +1,4 @@
-require "rails_helper"
+require "spec_helper"
 
 describe V2::ScripsApi do
   let(:scrips_path) { "/v2/scrips" }

@@ -1,4 +1,4 @@
-require 'rails_helper'
+require 'spec_helper'
 
 describe Chat, :type => :model do
   it "create information favorite type chat" do

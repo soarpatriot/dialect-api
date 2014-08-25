@@ -1,4 +1,4 @@
-require "rails_helper"
+require "spec_helper"
 
 describe V2::CollectionsApi do
   let(:collections_path) { "/v2/collections" }

@@ -1,4 +1,4 @@
-require "rails_helper"
+require "spec_helper"
 
 describe V2::GeocoderApi do
   let(:random_path) { "/v2/geocoder/random" }

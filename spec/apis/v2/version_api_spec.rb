@@ -1,4 +1,4 @@
-require "rails_helper"
+require "spec_helper"
 
 describe V2::VersionApi do
   let(:version_path) { "/v2/versions" }

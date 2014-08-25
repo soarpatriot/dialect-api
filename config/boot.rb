@@ -37,7 +37,6 @@ require "restclient"
 #require "devise"
 require "carrierwave"
 require "mini_magick"
-require "paperclip"
 require "acts_as_votable"
 require "acts_as_tree"
 

@@ -1,4 +1,4 @@
-require 'rails_helper'
+require 'spec_helper'
 
 RSpec.describe CouponUsageHistory, :type => :model do
   it "multi same coupon user history" do
