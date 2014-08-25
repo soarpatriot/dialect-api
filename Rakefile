@@ -5,12 +5,12 @@ require 'yaml'
 
 unless ENV["G2_ENV"] == "production"
   require 'rspec/core/rake_task'
-  require 'ci/reporter/rake/rspec'
+  # require 'ci/reporter/rake/rspec'
 
   RSpec::Core::RakeTask.new(:spec)
 
   task :default => :spec
-  task :spec => "ci:setup:rspec"
+  # task :spec => "ci:setup:rspec"
 end
 
 task :environment do
