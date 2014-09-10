@@ -54,6 +54,7 @@ namespace :deploy do
     end
   end
 
+=begin
   after :updated, :migration do
     invoke "rvm:hook"
     on roles(:app) do
@@ -62,6 +63,7 @@ namespace :deploy do
       end
     end
   end
+=end
 
   task :bundle do
     on roles(:app) do

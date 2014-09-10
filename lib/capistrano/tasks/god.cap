@@ -21,8 +21,8 @@ namespace :god do
   desc "god load config"
   task :load => "rvm:hook" do
     on roles(:app) do
-      within shared_path do
-        execute :bundle, "exec god load config/inkash-api.god"
+      within current_path do
+        execute :bundle, "exec god load #{shared_path}/config/inkash-api.god"
       end
     end
   end
