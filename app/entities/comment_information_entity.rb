@@ -17,13 +17,20 @@ class CommentInformationEntity < Grape::Entity
   expose :content,        documentation: {required: true, type: "Integer"} do |instance, options|
     instance.content
   end
-  expose :address,        documentation: {required: true, type: "Integer"} do |instance, options|
-    instance.address
+  expose :address,  documentation: {required: true, type: "String", desc: "地址"} do |instance, options|
+    if instance.information.place
+      instance.information.place.address
+    else
+      instance.address
+    end
   end
   expose :type, documentation: {required: true, type: "String", desc: "类型"} do |instance, options|
     "Scrip"
   end
   expose :image_url, documentation: {required: true, type: "String", desc: "图片地址"} do |instance, options|
+    instance.try(:image_url)
+  end
+  expose :middle_image_url, documentation: {required: true, type: "String", desc: "中等尺寸图片地址"} do |instance, options|
     instance.try(:image_url)
   end
   expose :thumb_image_url, documentation: {required: true, type: "String", desc: "缩略图片地址"} do |instance, options|
@@ -47,9 +54,7 @@ class CommentInformationEntity < Grape::Entity
   expose :owner_avatar_url,  documentation: {required: true, type: "String", desc: "用户头像URL地址"} do |instance, options|
     instance.try(:owner).try(:avatar_url)
   end
-  expose :address,  documentation: {required: true, type: "String", desc: ""} do |instance, options|
-    instance.try(:address)
-  end
+
   expose :summary,  documentation: {required: true, type: "String", desc: "简述"} do |instance, options|
     instance.try(:summary)
   end

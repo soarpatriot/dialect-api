@@ -5,7 +5,7 @@ class V2::VersionApi < Grape::API
         entity: VersionEntity
     }
     params do
-      requires :platform, type: Symbol, values: [:ios, :android], desc: "系统平台 ios android"
+      requires :platform, type: Symbol, values: [:ios, :android,:"ios-beta"], desc: "系统平台 ios android"
     end
     get do
       version = Version.where(platform: params[:platform]).first

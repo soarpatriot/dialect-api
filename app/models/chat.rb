@@ -7,6 +7,9 @@ class Chat < ActiveRecord::Base
   belongs_to :target, polymorphic: true
   has_many :messages, dependent: :destroy
 
+  has_many :unread_messages,  -> {where(read: false)}, :class_name => "Message"
+  has_many :place_messages,  -> { limit 20 }, :class_name => "Message"
+
   after_create :set_last_sync_at
 
   def information

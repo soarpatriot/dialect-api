@@ -55,6 +55,8 @@ class V2::CommentsApi < Grape::API
       # locale_error! "comments.no_place_found", 404 if place.nil?
       comment = scrip.comments.create content: params[:content], address: place.try(:address), user: current_user, place: place
 
+      information.increase_for :comments_count
+
       Chat.create_for_information_comment information, current_user, params[:content]
 
       present comment, with: CommentEntity

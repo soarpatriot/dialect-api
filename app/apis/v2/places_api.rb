@@ -30,7 +30,7 @@ class V2::PlacesApi < Grape::API
       end
 
       present favorites, with: FavoritePlaceEntity
-      body( { has_more: has_more, data: body() })
+      body( { hasmore: has_more, data: body() })
     end
 
     desc "收藏圈子", {

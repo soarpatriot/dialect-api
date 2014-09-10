@@ -66,6 +66,10 @@ describe V2::CommentsApi do
       res = auth_json_post comments_path, {content: content, information_id: scrip.information.id, place_id: place.id}
       expect(Comment.count).to eq(1)
       comment = Comment.first
+
+      scrip.reload
+      expect(scrip.information.comments_count).to eq(1)
+
       expect(res[:id]).to eq(comment.id)
       expect(res[:user_id]).to eq(comment.user_id)
       expect(res[:information_id]).to eq(scrip.information.id)

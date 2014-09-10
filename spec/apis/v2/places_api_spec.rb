@@ -17,18 +17,20 @@ describe V2::PlacesApi do
     it "list" do
       favorite = create :favorite_place, user: current_user, place: place
       res = auth_json_get favorited_places_path
-      expect(res[:has_more]).to eq(false)
+
+      expect(res[:hasmore]).to eq(false)
       expect(res[:data].size).to eq(1)
       expect(res[:data].first[:favorite_id]).to eq(favorite.id)
 
       favorites = create_list :favorite_place, 2, user: current_user, place: place
 
       res = auth_json_get favorited_places_path
-      expect(res[:has_more]).to eq(true)
+
+      expect(res[:hasmore]).to eq(true)
       expect(res[:data].size).to eq(2)
 
       res = auth_json_get favorited_places_path(before: favorites.first.id)
-      expect(res[:has_more]).to eq(false)
+      expect(res[:hasmore]).to eq(false)
       expect(res[:data].size).to eq(1)
     end
   end

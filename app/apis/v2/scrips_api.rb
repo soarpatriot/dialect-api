@@ -89,5 +89,42 @@ class V2::ScripsApi < Grape::API
       present scrip, with: ScripEntity, auth_token: params[:auth_token]
     end
 
+
+    desc "获取当前热门字条所有纸条", {
+        entity: ScripEntity
+    }
+    params do
+      optional :after, type: Integer, desc: "查询大于此id的纸条"
+      optional :before, type: Integer, desc: "查询小于此id的纸条"
+    end
+    get 'hot' do
+      scrips = Scrip.order_by_hot
+
+=begin
+      if params[:after] or params[:before]
+        if params[:after]
+          scrips = scrips.joins(:information).where("information.id > ? ", params[:after])
+        elsif params[:before]
+          scrips = scrips.joins(:information).where("information.id < ? ", params[:after])
+        end
+        sum = scrips.count
+        start = sum - Settings.paginate_per_page
+        has_more = start > 0
+        if start > 0 and params[:after]
+          scrips = scrips.limit "#{start}, #{Settings.paginate_per_page}"
+        else
+          scrips = scrips.limit Settings.paginate_per_page
+        end
+      else
+      end
+=end
+        # has_more = (scrips.count - Settings.paginate_per_page) > 0
+      has_more = false
+      scrips = scrips.limit(Settings.paginate_per_page)
+
+
+      present scrips, with: ScripEntity, auth_token: params[:auth_token]
+      body( { has_more: has_more, data: body() })
+    end
   end
 end
