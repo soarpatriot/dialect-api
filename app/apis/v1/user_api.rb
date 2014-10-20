@@ -2,8 +2,6 @@ class V1::UserApi < Grape::API
 
   namespace :user do
 
-
-
     desc "更新用户信息", {
       entity: UserEntity,
       notes: <<-NOTES
@@ -104,7 +102,6 @@ class V1::UserApi < Grape::API
 
       if res.auth_token.nil?
         res.update auth_token: AuthToken.create
-
       end
 
       present res, with: UserEntity, token: res.auth_token.value

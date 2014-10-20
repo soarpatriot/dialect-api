@@ -24,12 +24,15 @@ describe V1::UserApi do
   context "login" do
     it "fail" do
       user = create :user
-      res = json_post login_path, name:user.name, password:user.password
+      res = json_post login_path, name:user.name, password:121
       binding.pry
       expect(res[:name]).to eq(user.name)
     end
     it "success" do
+      user = create :user
+      res = json_post login_path, name:user.name, password:user.password
 
+      expect(res[:name]).to eq(user.name)
     end
   end
 

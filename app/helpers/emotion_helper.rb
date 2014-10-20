@@ -11,4 +11,5 @@ module EmotionHelper
     content.gsub(/\{(face.*?)\}/, "")
   end
 
+
 end

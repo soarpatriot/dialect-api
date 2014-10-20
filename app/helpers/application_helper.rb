@@ -19,4 +19,15 @@ module ApplicationHelper
     return current_tab_name == tab_name
   end
 
+  def result code,message
+    {code: code, message: message}
+  end
+
+  def success_result
+    result 0, "success"
+  end
+
+  def local_result code, key
+    {code: code, message: I18n.t(key)}
+  end
 end
