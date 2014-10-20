@@ -13,7 +13,7 @@ namespace :god do
   task :terminate => "rvm:hook" do
     on roles(:app) do
       within current_path do
-        execute :bundle, "exec god terminate"
+        execute :bundle,"exec god terminate"
       end
     end
   end
@@ -31,7 +31,7 @@ namespace :god do
   task :start => "rvm:hook" do
     on roles(:app) do
       within current_path do
-          execute :bundle, "exec god -c #{shared_path}/config/inkash-api.god"
+          execute :bundle,"exec god -c #{shared_path}/config/inkash-api.god"
       end
     end
   end
