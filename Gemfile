@@ -41,6 +41,7 @@ end
 
 
 group :development do
+
   gem 'guard-rspec'
   gem 'capistrano'
   gem 'capistrano-bundler'

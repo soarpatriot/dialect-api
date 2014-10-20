@@ -45,7 +45,6 @@ require 'g2'
 require 'db'
 
 require 'v1'
-require 'v2'
 require 'settings'
 
 

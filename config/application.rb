@@ -1,6 +1,6 @@
 require_relative "boot"
 require_relative "api_v1"
-require_relative "api_v2"
+
 
 I18n.enforce_available_locales = false
 
@@ -17,8 +17,8 @@ class ServiceApplication < Grape::API
 
   get do
     {
-      name: "inkash platform api",
-      versions: [:v1, :v2]
+      name: "api",
+      versions: [:v1]
     }
   end
 
@@ -32,19 +32,12 @@ class ServiceApplication < Grape::API
 
   helpers AccessHelper
   helpers LocaleHelper
-  helpers MapHelper
-  helpers UserHelper
-  helpers ScripHelper
-  helpers FavoriteHelper
-  helpers CommentHelper
-  helpers ShareHelper
-  helpers VisitHelper
+
   # paginate per_page: 15
   mount ApiV1
-  mount ApiV2
 
 
-  add_swagger_documentation
+  # add_swagger_documentation
   get '/(*:url)', :anchor => false do
     error! "Not found! No route mapping to >> #{env["HTTP_HOST"]}/#{env["PATH_INFO"]}", 404
   end

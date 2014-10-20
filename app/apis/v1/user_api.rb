@@ -2,24 +2,7 @@ class V1::UserApi < Grape::API
 
   namespace :user do
 
-    desc "下载声印码", {
-      notes: <<-NOTES
-        下载分配给此用户的声印码,返回一个两秒的以service code命名的wav文件，即如果service code为8888，则下载到的文件为8888.wav
-      NOTES
-    }
-    params do
-      requires :auth_token, type: String
-    end
-    get "download_soundink_code" do
-      token_authenticate!
 
-      content_type "application/octet-stream"
-      header["Content-Disposition"] = "attachment; filename=1001.wav"
-
-      data = File.open(Rails.application.config.root.join("public/soundinkcodes/1001.wav")).read
-      env["api.format"] = :binary
-      present data
-    end
 
     desc "更新用户信息", {
       entity: UserEntity,
@@ -88,25 +71,19 @@ class V1::UserApi < Grape::API
       entity: UserEntity
     }
     params do
-      requires :country_code, type: Integer
-      requires :mobile_number, type: String
-      requires :register_code, type: String
-      requires :nickname, type: String
+      requires :name, type: String
       requires :password, type: String
     end
     post "register" do
-      user = User.where(country_code: params[:country_code], mobile_number: params[:mobile_number]).first
+      user = User.where(name: params[:name]).first
       locale_error! "user_exsisted", 400 unless user.nil?
       # error! "user with mobile_number #{params[:mobile_number]} existed", 400 unless user.nil?
 
-      captcha = Captcha.where(mobile_number: params[:mobile_number], ctype: Captcha.ctypes[:register], code: params[:register_code]).first
-      locale_error! "wrong_register_code", 400 unless params[:register_code] == captcha.try(:code)
 
-      user = User.create country_code: params[:country_code], mobile_number: params[:mobile_number], nickname: params[:nickname], password: params[:password]
+      user = User.create name: params[:name], password: params[:password]
       error! user.errors.full_messages.join(","), 400 unless user.persisted?
 
-      captcha.destroy
-      user.auth_tokens.create
+      # user.auth_tokens.create
       present user, with: UserEntity, return_token: true
     end
 
