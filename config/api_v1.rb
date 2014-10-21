@@ -1,9 +1,17 @@
 require "grape-swagger"
 class ApiV1 < Grape::API
 
-  include Grape::Kaminari
+  use Rack::Cors do
+    allow do
+      origins '*'
+      resource '*', headers: :any, methods: [:get, :put, :post, :options, :delete]
+    end
+  end
 
+  include Grape::Kaminari
+  version :v1
   format :json
+  paginate per_page: 15
 
   before do
     I18n.locale = params[:locale] if I18n.locale_available?(params[:locale])
@@ -11,24 +19,19 @@ class ApiV1 < Grape::API
 
   get do
     {
-        version: "v1"
+        name: "v1"
     }
   end
 
-  rescue_from ActiveRecord::RecordNotFound do |e|
-    msg = {
-        error: e.message.gsub(/\ \[.*/, "")
-    }.to_json
-    Rack::Response.new(msg, 404, {"Content-type" => "application/json"}).finish
-  end
 
-  paginate per_page: 15
-
-
-  version :v1
+  helpers AccessHelper
+  helpers LocaleHelper
+  helpers ApplicationHelper
 
   mount V1::UserApi
 
-  add_swagger_documentation api_version: "v1"
-
+  add_swagger_documentation  api_version:"v1", base_path: (ENV["INKASH_HOST"] || "http://localhost:9000")
+  #add_swagger_documentation
+  # add_swagger_documentation api_version: "v1", markdown: true
+  # add_swagger_documentation api_version: "v2", markdown: true
 end

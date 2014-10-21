@@ -1,11 +1,12 @@
 require_relative "boot"
 require_relative "api_v1"
-
+require "grape-swagger"
 
 I18n.enforce_available_locales = false
 
 class ServiceApplication < Grape::API
-  use ActiveRecord::ConnectionAdapters::ConnectionManagement
+  # use ActiveRecord::ConnectionAdapters::ConnectionManagement
+
   use Rack::Cors do
     allow do
       origins '*'
@@ -22,6 +23,7 @@ class ServiceApplication < Grape::API
     }
   end
 
+
   rescue_from ActiveRecord::RecordNotFound do |e|
     msg = {
       error: e.message.gsub(/\ \[.*/, "")
@@ -30,14 +32,10 @@ class ServiceApplication < Grape::API
   end
 
 
-  helpers AccessHelper
-  helpers LocaleHelper
-  helpers ApplicationHelper
   # paginate per_page: 15
   mount ApiV1
 
 
-  # add_swagger_documentation
   get '/(*:url)', :anchor => false do
     error! "Not found! No route mapping to >> #{env["HTTP_HOST"]}/#{env["PATH_INFO"]}", 404
   end

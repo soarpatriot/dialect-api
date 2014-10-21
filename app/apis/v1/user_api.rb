@@ -85,7 +85,7 @@ class V1::UserApi < Grape::API
     desc "用户登陆", {
       entity: UserEntity
     }
-    params do
+    params do 
       requires :name, type: String
       requires :password,      type: String
     end
