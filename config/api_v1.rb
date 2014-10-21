@@ -1,4 +1,4 @@
-# require "grape-swagger"
+require "grape-swagger"
 class ApiV1 < Grape::API
 
   include Grape::Kaminari
@@ -29,6 +29,6 @@ class ApiV1 < Grape::API
 
   mount V1::UserApi
 
-  # add_swagger_documentation api_version: "v1"
+  add_swagger_documentation api_version: "v1"
 
 end

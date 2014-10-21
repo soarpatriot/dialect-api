@@ -75,13 +75,11 @@ class V1::UserApi < Grape::API
     post "register" do
       user = User.where(name: params[:name]).first
       locale_error! "user_exsisted", 400 unless user.nil?
-      # error! "user with mobile_number #{params[:mobile_number]} existed", 400 unless user.nil?
 
       user = User.create name: params[:name], password: params[:password]
       error! user.errors.full_messages.join(","), 400 unless user.persisted?
 
-      token = AuthToken.create user: user
-      present user, with: UserEntity, token: token.value
+      success_result
     end
 
     desc "用户登陆", {
@@ -97,7 +95,6 @@ class V1::UserApi < Grape::API
       locale_error! "invalid_mobile_number_or_password", 401 unless user
 
       res = user.authenticate params[:password]
-
       locale_error! "invalid_mobile_number_or_password", 401 unless res
 
       if res.auth_token.nil?

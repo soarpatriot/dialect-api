@@ -16,7 +16,7 @@ describe V1::UserApi do
 
     it "succes" do
       res = json_post register_path, name:"aaa", password:"bbb"
-      expect(res[:name]).to eq("aaa")
+      expect(res[:code]).to eq(0)
     end
 
   end
@@ -25,13 +25,11 @@ describe V1::UserApi do
     it "fail" do
       user = create :user
       res = json_post login_path, name:user.name, password:121
-      binding.pry
-      expect(res[:name]).to eq(user.name)
+      expect(res[:error]).to eq(I18n.t("invalid_mobile_number_or_password"))
     end
     it "success" do
       user = create :user
       res = json_post login_path, name:user.name, password:user.password
-
       expect(res[:name]).to eq(user.name)
     end
   end

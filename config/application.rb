@@ -32,7 +32,7 @@ class ServiceApplication < Grape::API
 
   helpers AccessHelper
   helpers LocaleHelper
-
+  helpers ApplicationHelper
   # paginate per_page: 15
   mount ApiV1
 
