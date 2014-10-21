@@ -1,5 +1,9 @@
-class SponsorLogoUploader < CarrierWave::Uploader::Base
+require 'carrierwave/orm/activerecord'
+class PostImageUploader < CarrierWave::Uploader::Base
 
+  # Include RMagick or MiniMagick support:
+  # include CarrierWave::RMagick
+  # include CarrierWave
   include CarrierWave::MiniMagick
   CarrierWave.root = "#{G2.config.root_dir}"
   # Choose what kind of storage to use for this uploader:
@@ -12,6 +16,12 @@ class SponsorLogoUploader < CarrierWave::Uploader::Base
     "#{G2.config.root_dir}/public/uploads/#{model.class.to_s.underscore}/#{mounted_as}/#{model.id}"
   end
 
+  # Provide a default URL as a default if there hasn't been a file uploaded:
+  # def default_url
+     # asset_host + "/images/fallback/" + [version_name, "default.png"].compact.join('_')
+  # end
+
+
   # Process files as they are uploaded:
   # process :scale => [200, 300]
   #
@@ -20,9 +30,14 @@ class SponsorLogoUploader < CarrierWave::Uploader::Base
   # end
 
   # Create different versions of your uploaded files:
-  # version :thumb do
-  #   process :resize_to_fit => [50, 50]
-  # end
+
+  version :show, :if => :not_gif_or_bigger_than_600? do
+    process :resize_to_fit => [600, 999999]
+  end
+
+  version :thumb do
+    process :resize_to_fit => [160, 999999]
+  end
 
   # Add a white list of extensions which are allowed to be uploaded.
   # For images you might use something like this:
@@ -35,5 +50,12 @@ class SponsorLogoUploader < CarrierWave::Uploader::Base
   # def filename
   #   "something.jpg" if original_filename
   # end
+
+  private
+
+  def not_gif_or_bigger_than_600? picture
+    image = MiniMagick::Image.open(picture.path)
+    image[:width] > 600 and !picture.path.end_with?("gif")
+  end
 
 end

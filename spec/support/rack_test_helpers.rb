@@ -10,7 +10,7 @@ module RackTestHelpers
   end
 
   def current_token
-    @token ||= current_user.auth_tokens.create
+    @token ||= AuthToken.create user: current_user
   end
 
   def json_post url, data={}
