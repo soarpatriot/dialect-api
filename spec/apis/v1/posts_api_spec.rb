@@ -70,7 +70,7 @@ describe V1::PostsApi do
       post = create :post
       create_list :comment, 10, post:post
       res = auth_json_get comments_path(post)
-      binding.pry
+
       expect(res[:has_more]).to eq(true)
       expect(res[:data].size).to eq(2)
     end
@@ -78,12 +78,22 @@ describe V1::PostsApi do
     it "list more page, before" do
       post = create :post
       create_list :comment, 10, post:post
-      res = auth_json_get comments_path(post)
-      binding.pry
+      comment = create :comment, post:post
+      res = auth_json_get comments_path(post), before: comment.id
+
       expect(res[:has_more]).to eq(true)
       expect(res[:data].size).to eq(2)
     end
 
+    it "list more page, before only one" do
+      post = create :post
+      create_list :comment, 1, post:post
+      comment = create :comment, post:post
+      res = auth_json_get comments_path(post), before: comment.id
+
+      expect(res[:has_more]).to eq(false)
+      expect(res[:data].size).to eq(1)
+    end
   end
 
 end
