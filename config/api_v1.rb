@@ -23,7 +23,7 @@ class ApiV1 < Grape::API
     }
   end
 
-
+  helpers PostHelper
   helpers AccessHelper
   helpers LocaleHelper
   helpers ApplicationHelper

@@ -5,9 +5,7 @@ describe V1::UserApi do
   let(:login_path) { "/v1/user/login" }
   let(:register_path) { "/v1/user/register" }
 
-  def user_scrips_path user
-    "/v2/user/#{user.id}/scrips"
-  end
+
   context "register" do
     it "fails without mobile_number or password or register_code or nickname" do
       res = json_post register_path
