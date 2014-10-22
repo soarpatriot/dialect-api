@@ -36,7 +36,17 @@ class V1::PostsApi < Grape::API
       success_result
     end
 
-
+    desc "获得 comments list", {
+        entity: CommentEntity
+    }
+    params do
+      requires :id,type:Integer, desc: "id"
+      optional :before,type:Integer, desc: "comment id"
+    end
+    get ":id/comments" do
+      post = Post.find(params[:id])
+      comment_page post.comments, params[:before]
+    end
 
   end
 

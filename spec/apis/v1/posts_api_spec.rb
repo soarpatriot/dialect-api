@@ -3,6 +3,9 @@ require "spec_helper"
 describe V1::PostsApi do
 
   let(:post_path) { "/v1/posts" }
+  def comments_path post
+    "/v1/posts/#{post.id}/comments"
+  end
 
 
   context "create a post" do
@@ -58,6 +61,29 @@ describe V1::PostsApi do
       expect(res[:has_more]).to eq(false)
       expect(res[:data].size).to eq(1)
     end
+  end
+
+
+  context "comments list" do
+
+    it "list more page" do
+      post = create :post
+      create_list :comment, 10, post:post
+      res = auth_json_get comments_path(post)
+      binding.pry
+      expect(res[:has_more]).to eq(true)
+      expect(res[:data].size).to eq(2)
+    end
+
+    it "list more page, before" do
+      post = create :post
+      create_list :comment, 10, post:post
+      res = auth_json_get comments_path(post)
+      binding.pry
+      expect(res[:has_more]).to eq(true)
+      expect(res[:data].size).to eq(2)
+    end
+
   end
 
 end
