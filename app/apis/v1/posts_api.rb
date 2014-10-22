@@ -10,6 +10,18 @@ class V1::PostsApi < Grape::API
 
   resources :posts do
 
+    desc "获得sound list", {
+        entity: PostEntity
+    }
+    params do
+      optional :before,type:Integer, desc: "内容"
+    end
+    get do
+      posts = Post.all
+      post_page posts, params[:before]
+    end
+
+
     desc "上传声音", {
 
     }
@@ -19,10 +31,12 @@ class V1::PostsApi < Grape::API
       optional :content, desc: "内容"
     end
     post  do
-      post = Post.create image:params[:image], sound:params[:sound], content:params[:content]
+      post = Post.create image:params[:image], sound:params[:sound], content:params[:content], user:current_user
       error! post.errors.full_messages.join(","), 400 unless post.persisted?
       success_result
     end
+
+
 
   end
 
