@@ -1,6 +1,6 @@
 lock '3.2.1'
 
-set :application, "inkash-api"
+set :application, "dialect-api"
 
 set :rvm_type, :user
 set :rvm_ruby_version, '2.1.3'
@@ -29,7 +29,7 @@ namespace :deploy do
 
     on roles(:app) do
       within current_path do
-        execute :bundle, "exec god start inkash-api"
+        execute :bundle, "exec god start dialect-api"
       end
     end
   end
@@ -39,7 +39,7 @@ namespace :deploy do
 
     on roles(:app) do
       within current_path do
-        execute :bundle, "exec god stop inkash-api"
+        execute :bundle, "exec god stop dialect-api"
       end
     end
   end
