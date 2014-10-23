@@ -14,7 +14,7 @@ class ApiV1 < Grape::API
   paginate per_page: 15
 
   before do
-    I18n.locale = params[:locale] if I18n.locale_available?(params[:locale])
+    I18n.locale = "zh-CN"
   end
 
   get do

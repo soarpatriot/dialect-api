@@ -1,4 +1,0 @@
-en:
-  chats:
-    has_user_comment_my_information: "%{sender}：%{comment}"
-    has_user_favorite_my_information: "%{sender}：赞了我的纸条"

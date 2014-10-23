@@ -29,10 +29,10 @@ class V1::UserApi < Grape::API
     post "login" do
       user = User.where(name: params[:name]).first
 
-      locale_error! "invalid_mobile_number_or_password", 401 unless user
+      locale_error! "user_not_exist", 401 unless user
 
       res = user.authenticate params[:password]
-      locale_error! "invalid_mobile_number_or_password", 401 unless res
+      locale_error! "password_not_correct", 401 unless res
 
       if res.auth_token.nil?
         res.update auth_token: AuthToken.create

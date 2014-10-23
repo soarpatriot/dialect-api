@@ -23,7 +23,12 @@ describe V1::UserApi do
     it "fail" do
       user = create :user
       res = json_post login_path, name:user.name, password:121
-      expect(res[:error]).to eq(I18n.t("invalid_mobile_number_or_password"))
+      expect(res[:error]).to eq(I18n.t("password_not_correct"))
+    end
+    it "user not exist" do
+      user = create :user
+      res = json_post login_path, name:"123123", password:121
+      expect(res[:error]).to eq(I18n.t("user_not_exist"))
     end
     it "success" do
       user = create :user
