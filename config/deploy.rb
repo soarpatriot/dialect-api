@@ -3,7 +3,7 @@ lock '3.2.1'
 set :application, "inkash-api"
 
 set :rvm_type, :user
-set :rvm_ruby_version, '2.1.1'
+set :rvm_ruby_version, '2.1.3'
 
 set :repo_url, "git@github.com:soarpatriot/dialect-api.git"
 # ask :branch, proc { `git rev-parse --abbrev-ref HEAD`.chomp }
