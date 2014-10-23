@@ -5,7 +5,7 @@ set :application, "inkash-api"
 set :rvm_type, :user
 set :rvm_ruby_version, '2.1.1'
 
-set :repo_url, "git@git.soundink.cn:server/inkash-api.git"
+set :repo_url, "git@github.com:soarpatriot/dialect-api.git"
 # ask :branch, proc { `git rev-parse --abbrev-ref HEAD`.chomp }
 set :branch, "master"
 
@@ -54,7 +54,7 @@ namespace :deploy do
     end
   end
 
-=begin
+
   after :updated, :migration do
     invoke "rvm:hook"
     on roles(:app) do
@@ -63,7 +63,7 @@ namespace :deploy do
       end
     end
   end
-=end
+
 
   task :bundle do
     on roles(:app) do
